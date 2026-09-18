@@ -4,1322 +4,1972 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kim Dokja | Fantasy Flower Field</title>
+<title>Kim Dokja | The Story</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Itim&family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Itim&family=Kanit:wght@300;400;500;600&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    font-family: "Kanit", sans-serif;
-    overflow-x: hidden;
-    color: white;
-    background: #101b35;
-    cursor: default;
+body{
+    font-family:'Kanit',sans-serif;
+    background:#07111f;
+    color:white;
+    overflow-x:hidden;
+    cursor:none;
 }
 
-button, a {
-    font-family: inherit;
+button,
+a{
+    font-family:inherit;
 }
 
-button, a, .card {
-    -webkit-tap-highlight-color: transparent;
-}
 
-/* =========================
+/* =========================================================
    LOADING SCREEN
-========================= */
+========================================================= */
 
-#loader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#loader{
+    position:fixed;
+    inset:0;
+    z-index:99999;
     background:
-        radial-gradient(circle at center, #40305d, #10152c 70%);
-    transition: opacity 1.3s, visibility 1.3s;
+        radial-gradient(circle at center,#2d416f 0%,#111a35 45%,#050914 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:opacity 1.4s ease,visibility 1.4s ease;
 }
 
-#loader.hide {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+#loader.hide{
+    opacity:0;
+    visibility:hidden;
 }
 
-.loader-flower {
-    position: relative;
-    width: 190px;
-    height: 190px;
-    animation: loaderRotate 15s linear infinite;
+.loader-content{
+    text-align:center;
+    position:relative;
 }
 
-.loader-petal {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 55px;
-    height: 95px;
-    border-radius: 60% 60% 45% 45%;
-    background: linear-gradient(#fff, #f59bd0);
-    transform-origin: 50% 100%;
-    transform:
-        translate(-50%, -100%)
-        rotate(var(--angle))
-        scale(0);
-    opacity: 0;
-    animation: bloom .8s var(--delay) forwards;
-    box-shadow: 0 0 25px #ffb8e6;
+.loader-orbit{
+    width:180px;
+    height:180px;
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:50%;
+    position:relative;
+    animation:spin 10s linear infinite;
+    margin:auto;
 }
 
-.loader-center {
-    position: absolute;
-    width: 43px;
-    height: 43px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    border-radius: 50%;
-    background: radial-gradient(circle, #fffbd0, #ffc94f);
-    box-shadow: 0 0 35px #ffd96b;
-    animation: centerBloom 1s 2s forwards;
+.loader-orbit::before{
+    content:"";
+    position:absolute;
+    inset:18px;
+    border:1px dashed rgba(255,220,255,.35);
+    border-radius:50%;
 }
 
-@keyframes bloom {
-    to {
-        opacity: 1;
-        transform:
-            translate(-50%, -100%)
-            rotate(var(--angle))
-            scale(1);
+.loader-flower{
+    position:absolute;
+    width:25px;
+    height:25px;
+    left:50%;
+    top:50%;
+    margin:-12px;
+    opacity:0;
+    animation:bloomLoader 2.8s ease forwards;
+}
+
+.loader-flower span{
+    position:absolute;
+    width:13px;
+    height:22px;
+    background:linear-gradient(#ffd6ef,#b987d9);
+    border-radius:100% 0 100% 0;
+    left:6px;
+    top:0;
+    transform-origin:bottom center;
+}
+
+.loader-flower span:nth-child(1){transform:rotate(0deg)}
+.loader-flower span:nth-child(2){transform:rotate(60deg)}
+.loader-flower span:nth-child(3){transform:rotate(120deg)}
+.loader-flower span:nth-child(4){transform:rotate(180deg)}
+.loader-flower span:nth-child(5){transform:rotate(240deg)}
+.loader-flower span:nth-child(6){transform:rotate(300deg)}
+
+.loader-flower i{
+    position:absolute;
+    width:9px;
+    height:9px;
+    background:#ffe9a6;
+    border-radius:50%;
+    left:8px;
+    top:8px;
+}
+
+.loader-flower:nth-child(1){transform:rotate(0deg) translateY(-70px);animation-delay:.1s}
+.loader-flower:nth-child(2){transform:rotate(45deg) translateY(-70px);animation-delay:.25s}
+.loader-flower:nth-child(3){transform:rotate(90deg) translateY(-70px);animation-delay:.4s}
+.loader-flower:nth-child(4){transform:rotate(135deg) translateY(-70px);animation-delay:.55s}
+.loader-flower:nth-child(5){transform:rotate(180deg) translateY(-70px);animation-delay:.7s}
+.loader-flower:nth-child(6){transform:rotate(225deg) translateY(-70px);animation-delay:.85s}
+.loader-flower:nth-child(7){transform:rotate(270deg) translateY(-70px);animation-delay:1s}
+.loader-flower:nth-child(8){transform:rotate(315deg) translateY(-70px);animation-delay:1.15s}
+
+.loader-title{
+    margin-top:35px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:35px;
+    letter-spacing:7px;
+}
+
+.loader-sub{
+    margin-top:8px;
+    opacity:.7;
+    letter-spacing:3px;
+    font-size:12px;
+}
+
+.loader-line{
+    width:220px;
+    height:2px;
+    background:rgba(255,255,255,.15);
+    margin:25px auto 0;
+    overflow:hidden;
+}
+
+.loader-line::after{
+    content:"";
+    display:block;
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#e7b8ff,#fff1b0,#b8e8ff);
+    animation:loading 3s ease forwards;
+}
+
+@keyframes loading{
+    to{width:100%}
+}
+
+@keyframes bloomLoader{
+    0%{
+        opacity:0;
+        scale:.2;
+    }
+    30%{
+        opacity:1;
+    }
+    100%{
+        opacity:1;
+        scale:1;
     }
 }
 
-@keyframes centerBloom {
-    to {
-        transform: translate(-50%, -50%) scale(1);
-    }
+@keyframes spin{
+    to{transform:rotate(360deg)}
 }
 
-@keyframes loaderRotate {
-    to { transform: rotate(360deg); }
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.cursor-flower{
+    position:fixed;
+    width:26px;
+    height:26px;
+    pointer-events:none;
+    z-index:99998;
+    transform:translate(-50%,-50%);
 }
 
-.loader-title {
-    font-family: "Itim", cursive;
-    font-size: clamp(32px, 7vw, 55px);
-    color: #ffe0f4;
-    text-shadow: 0 0 25px #ff8dce;
-    margin-top: 10px;
+.cursor-flower span{
+    position:absolute;
+    width:12px;
+    height:19px;
+    background:linear-gradient(#ffd9ef,#b47ad3);
+    border-radius:100% 0 100% 0;
+    left:7px;
+    top:0;
+    transform-origin:bottom center;
 }
 
-.loader-text {
-    margin-top: 8px;
-    color: #d9d0ed;
-    font-size: 14px;
+.cursor-flower span:nth-child(1){transform:rotate(0deg)}
+.cursor-flower span:nth-child(2){transform:rotate(72deg)}
+.cursor-flower span:nth-child(3){transform:rotate(144deg)}
+.cursor-flower span:nth-child(4){transform:rotate(216deg)}
+.cursor-flower span:nth-child(5){transform:rotate(288deg)}
+
+.cursor-flower i{
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:#ffeaa7;
+    border-radius:50%;
+    top:8px;
+    left:9px;
 }
 
-.loader-bar {
-    width: 250px;
-    height: 6px;
-    margin-top: 25px;
-    border-radius: 20px;
-    overflow: hidden;
-    background: #ffffff25;
-}
 
-.loader-progress {
-    width: 0;
-    height: 100%;
-    background: linear-gradient(90deg, #ff91d0, #ffe38c, #9df4ca);
-    animation: loading 3s forwards;
-}
+/* =========================================================
+   MAIN WORLD
+========================================================= */
 
-@keyframes loading {
-    to { width: 100%; }
-}
-
-/* =========================
-   BACKGROUND EFFECTS
-========================= */
-
-#effects {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 30;
-    overflow: hidden;
-}
-
-.petal {
-    position: fixed;
-    top: -50px;
-    animation: fall linear forwards;
-    filter: drop-shadow(0 0 5px #fff5);
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-50px) rotate(0deg);
-        opacity: 0;
-    }
-    10% { opacity: .9; }
-    100% {
-        transform:
-            translateY(110vh)
-            translateX(var(--sway))
-            rotate(540deg);
-        opacity: 0;
-    }
-}
-
-.firefly {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #fff6a4;
-    box-shadow: 0 0 15px #ffe58c;
-    animation: fireflyMove 5s infinite alternate ease-in-out;
-}
-
-@keyframes fireflyMove {
-    from {
-        transform: translate(0, 0);
-        opacity: .2;
-    }
-    to {
-        transform: translate(40px, -50px);
-        opacity: 1;
-    }
-}
-
-.mouse-flower {
-    position: fixed;
-    z-index: 9990;
-    pointer-events: none;
-    font-size: 24px;
-    transform: translate(-50%, -50%);
-    filter: drop-shadow(0 0 10px #fff);
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero {
-    position: relative;
-    min-height: 100vh;
-    padding: 100px 20px 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
+.world{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
     background:
         linear-gradient(
-            180deg,
-            #202b5d 0%,
-            #536fa5 38%,
-            #a9d7ce 72%,
-            #5b9b65 100%
+            to bottom,
+            #19275c 0%,
+            #455d91 38%,
+            #9fc9c8 72%,
+            #79b56e 100%
+        );
+    transition:background 2s ease;
+}
+
+.world.sunset{
+    background:
+        linear-gradient(
+            to bottom,
+            #292052 0%,
+            #7c466f 30%,
+            #e28b7a 57%,
+            #b9b275 75%,
+            #3e704d 100%
         );
 }
 
-.stars {
-    position: absolute;
-    inset: 0;
-    background-image:
-        radial-gradient(circle, #fff 1px, transparent 2px),
-        radial-gradient(circle, #fff8 1px, transparent 2px);
-    background-size: 100px 100px, 170px 170px;
-    animation: starMove 30s linear infinite;
-    opacity: .7;
-}
-
-@keyframes starMove {
-    to { background-position: 100px 200px, -170px 250px; }
-}
-
-.moon {
-    position: absolute;
-    top: 80px;
-    right: 12%;
-    width: 125px;
-    height: 125px;
-    border-radius: 50%;
-    background: #fff5c7;
-    box-shadow: 0 0 50px #fff3aa, 0 0 120px #fff8;
-    animation: moonGlow 5s infinite alternate;
-}
-
-@keyframes moonGlow {
-    to { box-shadow: 0 0 80px #fff3aa, 0 0 150px #fff8; }
-}
-
-/* ปราสาทแฟนตาซีด้านหลัง */
-
-.castle {
-    position: absolute;
-    bottom: 180px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 260px;
-    opacity: .7;
-    filter: drop-shadow(0 0 20px #bcd9ff);
-}
-
-.castle-main {
-    position: absolute;
-    bottom: 0;
-    left: 22%;
-    width: 56%;
-    height: 170px;
-    background: linear-gradient(90deg, #667aa5, #b6c9df, #64779e);
-    border-radius: 5px 5px 0 0;
-}
-
-.tower {
-    position: absolute;
-    bottom: 0;
-    width: 100px;
-    height: 220px;
-    background: linear-gradient(90deg, #52698f, #bdcce0, #53678c);
-}
-
-.tower.left { left: 5%; }
-.tower.right { right: 5%; }
-
-.tower:before {
-    content: "";
-    position: absolute;
-    top: -65px;
-    left: -15px;
-    border-left: 65px solid transparent;
-    border-right: 65px solid transparent;
-    border-bottom: 70px solid #39496f;
-}
-
-.tower:after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 45px;
-    left: 40px;
-    top: 45px;
-    border-radius: 20px 20px 0 0;
-    background: #293a61;
-    box-shadow: 0 80px #293a61;
-}
-
-.castle-window {
-    position: absolute;
-    left: 45%;
-    bottom: 25px;
-    width: 50px;
-    height: 90px;
-    border-radius: 30px 30px 0 0;
-    background: #27395e;
-    box-shadow: 0 0 25px #b5d7ff;
-}
-
-/* เนื้อหาหลัก */
-
-.hero-content {
-    position: relative;
-    z-index: 5;
-    max-width: 850px;
-    animation: appear 2s ease;
-}
-
-.hero-small {
-    letter-spacing: 5px;
-    font-size: 15px;
-    color: #e6eaff;
-}
-
-.hero h1 {
-    font-family: Georgia, serif;
-    font-size: clamp(65px, 11vw, 125px);
-    line-height: .9;
-    margin: 20px 0;
-    background: linear-gradient(90deg, #fff, #eacaff, #fff5bd, #fff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 25px #c7baff);
-}
-
-.hero-description {
-    max-width: 650px;
-    margin: auto;
-    line-height: 2;
-    font-size: 17px;
-    text-shadow: 0 2px 10px #18203d80;
-}
-
-.magic-button {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 14px 35px;
-    color: white;
-    text-decoration: none;
-    border: 1px solid #ffffff99;
-    border-radius: 50px;
-    background: #ffffff18;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 0 25px #b9a5ff55;
-    transition: .4s;
-}
-
-.magic-button:hover {
-    transform: translateY(-6px) scale(1.05);
-    background: #ffffff35;
-    box-shadow: 0 0 45px #e3caff99;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* =========================
-   GRASS
-========================= */
-
-.grass-field {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 230px;
-    overflow: hidden;
-    background: linear-gradient(#78bd6d, #286c42);
-    clip-path: polygon(
-        0 25%, 10% 15%, 20% 28%, 30% 12%,
-        40% 26%, 50% 13%, 60% 25%,
-        70% 15%, 80% 27%, 90% 13%, 100% 25%,
-        100% 100%, 0 100%
-    );
-}
-
-.grass {
-    position: absolute;
-    bottom: 0;
-    width: 3px;
-    height: var(--height);
-    background: linear-gradient(#a6e68a, #347b45);
-    border-radius: 100%;
-    transform-origin: bottom;
-    animation: wind var(--speed) infinite alternate ease-in-out;
-}
-
-@keyframes wind {
-    from { transform: rotate(-5deg); }
-    to { transform: rotate(8deg); }
-}
-
-.field-flower {
-    position: absolute;
-    left: var(--left);
-    bottom: var(--bottom);
-    font-size: var(--size);
-    animation: flowerWind var(--speed) infinite alternate ease-in-out;
-    filter: drop-shadow(0 3px 5px #2348);
-}
-
-@keyframes flowerWind {
-    from { transform: rotate(-5deg); }
-    to { transform: rotate(6deg); }
-}
-
-/* =========================
-   CREATURES
-========================= */
-
-.creature {
-    position: fixed;
-    z-index: 25;
-    pointer-events: none;
-    font-size: 28px;
-    animation: fly var(--duration) infinite ease-in-out;
-}
-
-@keyframes fly {
-    0% {
-        transform: translate(var(--x1), var(--y1)) rotate(-10deg);
-    }
-    25% {
-        transform: translate(var(--x2), var(--y2)) rotate(12deg);
-    }
-    50% {
-        transform: translate(var(--x3), var(--y3)) rotate(-8deg);
-    }
-    75% {
-        transform: translate(var(--x4), var(--y4)) rotate(10deg);
-    }
-    100% {
-        transform: translate(var(--x1), var(--y1)) rotate(-10deg);
-    }
-}
-
-/* =========================
-   GALLERY
-========================= */
-
-.gallery-section {
-    position: relative;
-    padding: 120px 20px 150px;
+.world.night{
     background:
-        linear-gradient(180deg, #4f9559, #c8e9b0 15%, #fff0f8 40%, #f3dafa);
-    color: #513c66;
+        linear-gradient(
+            to bottom,
+            #030616 0%,
+            #101c46 40%,
+            #233b58 72%,
+            #172d2b 100%
+        );
 }
 
-.section-title {
-    text-align: center;
-    font-family: "Itim", cursive;
-    font-size: clamp(45px, 8vw, 75px);
-    color: #b84e9c;
-    text-shadow: 0 4px 15px #b84e9c33;
+
+/* =========================================================
+   SKY
+========================================================= */
+
+.sky{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
 }
 
-.section-subtitle {
-    text-align: center;
-    margin: 10px auto 65px;
-    color: #775e82;
+.moon{
+    position:absolute;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:#fff1b5;
+    box-shadow:
+        0 0 40px #fff3bf,
+        0 0 100px rgba(255,239,177,.5);
+    right:12%;
+    top:11%;
+    transition:2s;
 }
 
-.gallery {
-    max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 35px;
-    perspective: 1200px;
+.world.sunset .moon{
+    background:#ffd5a2;
+    box-shadow:0 0 80px rgba(255,180,130,.6);
 }
 
-/* กรอบรูป 3D */
-
-.card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 25px;
-    background: #ffffffb8;
-    border: 2px solid #ffffffdd;
-    box-shadow: 0 20px 60px #744d8b25;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(60px) rotateX(0) rotateY(0);
-    transition: opacity .9s, transform .25s ease-out, box-shadow .4s;
-    transform-style: preserve-3d;
+.world.night .moon{
+    width:115px;
+    height:115px;
+    background:#edf1ff;
+    box-shadow:0 0 80px rgba(180,200,255,.7);
 }
 
-.card.show {
-    opacity: 1;
-    transform: translateY(0) rotateX(0) rotateY(0);
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:white;
+    box-shadow:0 0 8px white;
+    animation:twinkle 3s infinite alternate;
 }
 
-.card:hover {
-    box-shadow: 0 30px 80px #bb69af55;
+@keyframes twinkle{
+    from{opacity:.25;transform:scale(.7)}
+    to{opacity:1;transform:scale(1.5)}
 }
 
-.card:after {
-    content: "✦";
-    position: absolute;
-    top: 12px;
-    right: 18px;
-    color: white;
-    font-size: 28px;
-    text-shadow: 0 0 15px #fff;
-    pointer-events: none;
+
+/* =========================================================
+   PARALLAX LAYERS
+========================================================= */
+
+.parallax{
+    position:absolute;
+    pointer-events:none;
+    transition:transform .2s linear;
 }
 
-.card-image {
-    height: 340px;
-    overflow: hidden;
-    position: relative;
+.cloud{
+    width:300px;
+    height:70px;
+    border-radius:100px;
+    background:rgba(255,255,255,.12);
+    filter:blur(5px);
 }
 
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform .8s;
+.cloud::before,
+.cloud::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    background:inherit;
 }
 
-.card:hover .card-image img {
-    transform: scale(1.1);
+.cloud::before{
+    width:120px;
+    height:120px;
+    left:55px;
+    bottom:10px;
 }
 
-.image-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    background: linear-gradient(#a76de044, #5b327b88);
-    transition: .4s;
+.cloud::after{
+    width:90px;
+    height:90px;
+    right:55px;
+    bottom:5px;
 }
 
-.card:hover .image-overlay {
-    opacity: 1;
+.cloud.one{
+    left:-80px;
+    top:25%;
 }
 
-.zoom-icon {
-    width: 65px;
-    height: 65px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: white;
-    color: #b64e9b;
-    font-size: 25px;
-    box-shadow: 0 0 35px #fff;
+.cloud.two{
+    right:-120px;
+    top:36%;
+    transform:scale(.7);
 }
 
-.card-content {
-    padding: 28px;
-    text-align: center;
+.mountain{
+    position:absolute;
+    bottom:26%;
+    width:0;
+    height:0;
+    border-left:230px solid transparent;
+    border-right:230px solid transparent;
+    border-bottom:270px solid rgba(31,54,84,.8);
 }
 
-.card-content h2 {
-    font-family: "Itim", cursive;
-    color: #bd559f;
-    font-size: 32px;
-    margin-bottom: 12px;
+.mountain.one{
+    left:4%;
 }
 
-.card-content p {
-    font-size: 15px;
-    line-height: 1.9;
-    color: #705b7c;
+.mountain.two{
+    left:30%;
+    transform:scale(1.3);
 }
 
-/* =========================
+.mountain.three{
+    right:4%;
+    transform:scale(.9);
+}
+
+
+/* =========================================================
+   CASTLE
+========================================================= */
+
+.castle{
+    position:absolute;
+    left:50%;
+    bottom:22%;
+    width:560px;
+    height:300px;
+    transform:translateX(-50%);
+    filter:drop-shadow(0 20px 25px rgba(0,0,0,.25));
+    transition:transform .2s linear;
+}
+
+.castle-body{
+    position:absolute;
+    bottom:0;
+    left:90px;
+    right:90px;
+    height:190px;
+    background:
+        linear-gradient(
+            90deg,
+            #60789d,
+            #a8bdd1 30%,
+            #7891b2 65%,
+            #536b91
+        );
+    border-radius:5px 5px 0 0;
+    box-shadow:
+        inset 0 0 30px rgba(255,255,255,.18);
+}
+
+.tower{
+    position:absolute;
+    bottom:0;
+    width:110px;
+    height:235px;
+    background:
+        linear-gradient(
+            90deg,
+            #506a90,
+            #a9c1d6,
+            #526c91
+        );
+}
+
+.tower.left{left:15px}
+.tower.right{right:15px}
+
+.tower::before{
+    content:"";
+    position:absolute;
+    left:-18px;
+    top:-45px;
+    width:146px;
+    height:90px;
+    background:#394f78;
+    clip-path:polygon(50% 0,100% 100%,0 100%);
+}
+
+.tower::after{
+    content:"";
+    position:absolute;
+    width:27px;
+    height:55px;
+    background:#263d61;
+    border-radius:18px 18px 0 0;
+    bottom:55px;
+    left:42px;
+    box-shadow:0 -3px 8px rgba(100,180,255,.2);
+}
+
+.castle-door{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:65px;
+    height:90px;
+    border-radius:40px 40px 0 0;
+    background:#273c60;
+}
+
+.castle-window{
+    position:absolute;
+    width:30px;
+    height:60px;
+    border-radius:20px 20px 0 0;
+    background:#263c62;
+    bottom:70px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:100vh;
+    position:relative;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:100px 20px 200px;
+}
+
+.hero-content{
+    position:relative;
+    z-index:20;
+    max-width:1000px;
+}
+
+.welcome{
+    font-size:15px;
+    letter-spacing:8px;
+    margin-bottom:18px;
+    opacity:.9;
+    text-shadow:0 0 15px rgba(255,255,255,.5);
+}
+
+.hero-title{
+    position:relative;
+
+    /* สำคัญมาก:
+       แก้หาง J ไม่ให้ถูกตัด */
+    overflow:visible;
+
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(80px,13vw,175px);
+    font-weight:600;
+    line-height:.82;
+    letter-spacing:-5px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #d8a9ff,
+            #ffd9ef 35%,
+            #fff0b4 65%,
+            #d5b9ff
+        );
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    filter:
+        drop-shadow(0 0 15px rgba(223,166,255,.45))
+        drop-shadow(0 15px 35px rgba(0,0,0,.25));
+
+    padding:
+        0 0.08em
+        0.18em
+        0.14em;
+
+    animation:titleFloat 5s ease-in-out infinite;
+}
+
+@keyframes titleFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+}
+
+.title-spark{
+    position:absolute;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    border:2px solid white;
+    box-shadow:
+        0 0 20px #fff,
+        0 0 40px #d9a9ff;
+    animation:sparkPulse 2s infinite;
+}
+
+.title-spark::before,
+.title-spark::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    background:white;
+    transform:translate(-50%,-50%);
+}
+
+.title-spark::before{
+    width:60px;
+    height:1px;
+}
+
+.title-spark::after{
+    width:1px;
+    height:60px;
+}
+
+.title-spark{
+    bottom:-15px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+@keyframes sparkPulse{
+    0%,100%{scale:.8;opacity:.5}
+    50%{scale:1.15;opacity:1}
+}
+
+.hero-desc{
+    margin:28px auto 30px;
+    max-width:760px;
+    font-size:19px;
+    line-height:2;
+    text-shadow:0 3px 12px rgba(0,0,0,.7);
+}
+
+.story-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:15px 35px;
+    border:1px solid rgba(255,255,255,.65);
+    border-radius:50px;
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.1);
+    backdrop-filter:blur(12px);
+    box-shadow:
+        0 0 25px rgba(222,166,255,.2),
+        inset 0 0 20px rgba(255,255,255,.06);
+    transition:.4s;
+}
+
+.story-button:hover{
+    transform:translateY(-5px) scale(1.03);
+    background:rgba(255,255,255,.2);
+    box-shadow:
+        0 0 25px #dda6ff,
+        0 0 60px rgba(221,166,255,.35);
+}
+
+
+/* =========================================================
+   FLOWER FIELD
+========================================================= */
+
+.meadow{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:32%;
+    z-index:8;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(50,104,63,.1),
+            #244b32 100%
+        );
+    overflow:hidden;
+}
+
+.grass{
+    position:absolute;
+    bottom:0;
+    width:4px;
+    height:60px;
+    background:linear-gradient(90deg,#315c39,#83ad68);
+    transform-origin:bottom;
+    border-radius:100%;
+    animation:sway 3s ease-in-out infinite;
+}
+
+@keyframes sway{
+    0%,100%{transform:rotate(-4deg)}
+    50%{transform:rotate(7deg)}
+}
+
+.meadow-flower{
+    position:absolute;
+    bottom:12%;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    filter:drop-shadow(0 0 7px rgba(255,200,255,.7));
+    animation:flowerSway 4s ease-in-out infinite;
+}
+
+.meadow-flower::before{
+    content:"";
+    position:absolute;
+    inset:-8px;
+    background:
+        radial-gradient(circle at center top,#ffb8e2 0 30%,transparent 32%),
+        radial-gradient(circle at right center,#ffc9ed 0 30%,transparent 32%),
+        radial-gradient(circle at center bottom,#e7a7e9 0 30%,transparent 32%),
+        radial-gradient(circle at left center,#ffc9ed 0 30%,transparent 32%);
+    border-radius:50%;
+}
+
+.meadow-flower::after{
+    content:"";
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ffe7a4;
+    left:6px;
+    top:6px;
+}
+
+@keyframes flowerSway{
+    0%,100%{transform:rotate(-3deg)}
+    50%{transform:rotate(5deg)}
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.petals{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:30;
+    overflow:hidden;
+}
+
+.petal{
+    position:absolute;
+    width:12px;
+    height:20px;
+    background:linear-gradient(135deg,#ffd8ec,#d69bdf);
+    border-radius:100% 0 100% 0;
+    opacity:.8;
+    animation:fall linear forwards;
+    filter:drop-shadow(0 0 5px rgba(255,170,230,.5));
+}
+
+@keyframes fall{
+    0%{
+        transform:translateY(-50px) rotate(0deg);
+    }
+    100%{
+        transform:
+            translateY(110vh)
+            translateX(var(--drift))
+            rotate(720deg);
+    }
+}
+
+.firefly{
+    position:fixed;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#fff1a8;
+    box-shadow:
+        0 0 10px #fff4a6,
+        0 0 25px #ffe98a;
+    pointer-events:none;
+    z-index:15;
+    animation:firefly 5s ease-in-out infinite alternate;
+}
+
+@keyframes firefly{
+    from{
+        opacity:.1;
+        transform:translate(0,0);
+    }
+    to{
+        opacity:1;
+        transform:translate(40px,-50px);
+    }
+}
+
+
+/* =========================================================
+   BUTTERFLIES / BEES
+========================================================= */
+
+.creature{
+    position:fixed;
+    z-index:35;
+    pointer-events:none;
+    font-size:27px;
+    filter:drop-shadow(0 0 8px rgba(255,255,255,.5));
+}
+
+.butterfly{
+    animation:flyButterfly 18s linear infinite;
+}
+
+.bee{
+    animation:flyBee 14s linear infinite;
+}
+
+@keyframes flyButterfly{
+    0%{
+        left:-5%;
+        top:70%;
+        transform:rotate(10deg);
+    }
+    25%{
+        left:25%;
+        top:40%;
+    }
+    50%{
+        left:55%;
+        top:65%;
+    }
+    75%{
+        left:80%;
+        top:25%;
+    }
+    100%{
+        left:105%;
+        top:50%;
+        transform:rotate(-15deg);
+    }
+}
+
+@keyframes flyBee{
+    0%{
+        left:100%;
+        top:35%;
+    }
+    30%{
+        left:70%;
+        top:55%;
+    }
+    60%{
+        left:40%;
+        top:30%;
+    }
+    100%{
+        left:-10%;
+        top:60%;
+    }
+}
+
+
+/* =========================================================
+   GALLERY SECTION
+========================================================= */
+
+.gallery-section{
+    position:relative;
+    z-index:40;
+    min-height:100vh;
+    padding:110px 6vw;
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(5,11,27,.65) 10%,
+            #070c1c 35%,
+            #080d1b 100%
+        );
+}
+
+.section-title{
+    text-align:center;
+    font-family:'Cormorant Garamond',serif;
+    font-size:65px;
+    margin-bottom:12px;
+    background:linear-gradient(90deg,#e3b4ff,#fff2bc,#e5b8ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.section-sub{
+    text-align:center;
+    opacity:.7;
+    margin-bottom:70px;
+}
+
+.gallery{
+    max-width:1250px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:35px;
+}
+
+
+/* =========================================================
+   GLASS CARD
+========================================================= */
+
+.card{
+    position:relative;
+    min-height:510px;
+    border-radius:25px;
+    padding:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.22),
+            rgba(255,255,255,.035)
+        );
+
+    border:1px solid rgba(255,255,255,.45);
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.4),
+        inset 0 0 30px rgba(255,255,255,.05);
+
+    transform-style:preserve-3d;
+    transition:
+        transform .15s ease,
+        box-shadow .4s ease;
+
+    overflow:hidden;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:25px;
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            115deg,
+            transparent 15%,
+            rgba(255,255,255,.75) 25%,
+            transparent 35%
+        );
+
+    transform:translateX(-120%);
+    transition:transform .8s ease;
+}
+
+.card:hover::before{
+    transform:translateX(120%);
+}
+
+
+/* วิ๊งเหมือนกระจก */
+
+.card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:25px;
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle at 12% 18%,
+            rgba(255,255,255,.95) 0 1px,
+            transparent 3px
+        ),
+        radial-gradient(
+            circle at 85% 23%,
+            rgba(255,255,255,.9) 0 1px,
+            transparent 4px
+        ),
+        radial-gradient(
+            circle at 25% 87%,
+            rgba(255,230,255,.9) 0 1px,
+            transparent 4px
+        ),
+        radial-gradient(
+            circle at 91% 80%,
+            rgba(255,255,255,.9) 0 1px,
+            transparent 4px
+        );
+
+    opacity:.7;
+    animation:glassSparkle 2.7s infinite alternate;
+}
+
+@keyframes glassSparkle{
+    from{
+        opacity:.35;
+        filter:brightness(.8);
+    }
+    to{
+        opacity:1;
+        filter:brightness(1.8);
+    }
+}
+
+.card-image{
+    position:relative;
+    height:270px;
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.card-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .7s ease;
+}
+
+.card:hover .card-image img{
+    transform:scale(1.09);
+}
+
+.image-shine{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            110deg,
+            transparent 35%,
+            rgba(255,255,255,.45) 48%,
+            transparent 60%
+        );
+    transform:translateX(-130%);
+    transition:1s;
+}
+
+.card:hover .image-shine{
+    transform:translateX(130%);
+}
+
+.card-info{
+    padding:25px 20px;
+    position:relative;
+    z-index:2;
+}
+
+.card-info h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:31px;
+    color:#ffe4f5;
+    margin-bottom:8px;
+}
+
+.card-info p{
+    font-size:14px;
+    line-height:1.9;
+    color:rgba(255,255,255,.8);
+}
+
+.card-tag{
+    display:inline-block;
+    margin-top:15px;
+    padding:5px 12px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.3);
+    font-size:11px;
+    opacity:.75;
+}
+
+
+/* =========================================================
    STORY TIMELINE
-========================= */
+========================================================= */
 
-.timeline-section {
-    position: relative;
-    padding: 110px 20px;
-    background: linear-gradient(180deg, #f3dafa, #202c55);
-    overflow: hidden;
+.timeline-section{
+    position:relative;
+    z-index:40;
+    padding:120px 6vw;
+    background:#080d1b;
 }
 
-.timeline-section h2 {
-    text-align: center;
-    font-family: "Itim", cursive;
-    font-size: 60px;
-    color: #fff0ff;
-    text-shadow: 0 0 25px #dba5ff;
+.timeline{
+    max-width:1100px;
+    margin:auto;
+    position:relative;
 }
 
-.timeline {
-    max-width: 900px;
-    margin: 65px auto 0;
-    position: relative;
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:
+        linear-gradient(
+            transparent,
+            #d8adff,
+            #fff0bb,
+            #d8adff,
+            transparent
+        );
 }
 
-.timeline:before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(#ffb5e8, #a7c8ff);
+.timeline-item{
+    width:50%;
+    padding:25px 45px;
+    position:relative;
 }
 
-.timeline-item {
-    position: relative;
-    width: 50%;
-    padding: 20px 40px;
+.timeline-item:nth-child(odd){
+    text-align:right;
 }
 
-.timeline-item:nth-child(odd) {
-    left: 0;
-    text-align: right;
+.timeline-item:nth-child(even){
+    margin-left:50%;
 }
 
-.timeline-item:nth-child(even) {
-    left: 50%;
+.timeline-dot{
+    position:absolute;
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    background:#fff0b6;
+    box-shadow:
+        0 0 15px #fff0b6,
+        0 0 35px #d9a5ff;
+    top:45px;
 }
 
-.timeline-item:before {
-    content: "✦";
-    position: absolute;
-    top: 25px;
-    right: -16px;
-    width: 30px;
-    height: 30px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: #ffb5e8;
-    color: #33264f;
-    box-shadow: 0 0 25px #ffb5e8;
+.timeline-item:nth-child(odd) .timeline-dot{
+    right:-7px;
 }
 
-.timeline-item:nth-child(even):before {
-    left: -14px;
+.timeline-item:nth-child(even) .timeline-dot{
+    left:-7px;
 }
 
-.timeline-box {
-    padding: 25px;
-    border: 1px solid #ffffff55;
-    border-radius: 20px;
-    background: #ffffff12;
-    backdrop-filter: blur(15px);
-    transition: .4s;
+.timeline-box{
+    padding:25px;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:20px;
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(10px);
+    transition:.4s;
 }
 
-.timeline-box:hover {
-    transform: translateY(-8px);
-    background: #ffffff22;
+.timeline-box:hover{
+    transform:translateY(-5px);
+    background:rgba(255,255,255,.09);
+    box-shadow:0 15px 40px rgba(196,145,255,.15);
 }
 
-.timeline-box h3 {
-    color: #ffd2ef;
-    margin-bottom: 10px;
+.chapter{
+    font-size:11px;
+    letter-spacing:3px;
+    opacity:.55;
 }
 
-.timeline-box p {
-    color: #e1dced;
-    line-height: 1.8;
+.timeline-box h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    color:#ffe5b7;
+    margin:5px 0;
 }
 
-/* =========================
-   FOOTER
-========================= */
 
-footer {
-    text-align: center;
-    padding: 70px 20px;
-    background: #161c38;
-    color: #e8dff4;
+/* =========================================================
+   SECRET MESSAGE
+========================================================= */
+
+.secret{
+    text-align:center;
+    padding:100px 20px 130px;
+    background:#080d1b;
 }
 
-footer h2 {
-    font-family: "Itim", cursive;
-    font-size: 38px;
-    color: #ffc9eb;
+.secret-button{
+    background:none;
+    border:1px solid rgba(255,255,255,.25);
+    color:white;
+    padding:13px 25px;
+    border-radius:50px;
+    cursor:none;
+    transition:.4s;
 }
 
-footer p {
-    margin-top: 10px;
+.secret-button:hover{
+    border-color:#e3b1ff;
+    box-shadow:0 0 25px rgba(220,170,255,.3);
 }
 
-/* =========================
-   LIGHTBOX
-========================= */
-
-#lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 100000;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    background: #080b1ced;
-    backdrop-filter: blur(15px);
+.secret-text{
+    max-width:650px;
+    margin:25px auto 0;
+    opacity:0;
+    max-height:0;
+    overflow:hidden;
+    transition:1s;
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    color:#ffe8b5;
 }
 
-#lightbox.active {
-    display: flex;
+.secret-text.show{
+    opacity:1;
+    max-height:200px;
 }
 
-.lightbox-inner {
-    position: relative;
-    max-width: 1000px;
-    max-height: 90vh;
-    animation: lightboxIn .5s ease;
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls{
+    position:fixed;
+    right:20px;
+    top:20px;
+    z-index:500;
+    display:flex;
+    gap:10px;
 }
 
-@keyframes lightboxIn {
-    from {
-        opacity: 0;
-        transform: scale(.7) rotate(-5deg);
+.control{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.4);
+    color:white;
+    background:rgba(30,40,80,.35);
+    backdrop-filter:blur(12px);
+    font-size:22px;
+    cursor:none;
+    transition:.3s;
+}
+
+.control:hover{
+    transform:scale(1.1) rotate(8deg);
+    background:rgba(255,255,255,.15);
+    box-shadow:0 0 25px rgba(220,180,255,.4);
+}
+
+
+/* =========================================================
+   CLICK MAGIC
+========================================================= */
+
+.magic-ring{
+    position:fixed;
+    width:20px;
+    height:20px;
+    border:2px solid #f4caff;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:9990;
+    transform:translate(-50%,-50%);
+    animation:magicRing .8s ease-out forwards;
+}
+
+.magic-ring::before,
+.magic-ring::after{
+    content:"✦";
+    position:absolute;
+    color:#fff1bc;
+    font-size:17px;
+}
+
+.magic-ring::before{
+    left:-25px;
+    top:-20px;
+}
+
+.magic-ring::after{
+    right:-25px;
+    bottom:-20px;
+}
+
+@keyframes magicRing{
+    from{
+        width:10px;
+        height:10px;
+        opacity:1;
     }
-    to {
-        opacity: 1;
-        transform: scale(1) rotate(0);
+    to{
+        width:230px;
+        height:230px;
+        opacity:0;
     }
 }
 
-.lightbox-inner img {
-    max-width: 100%;
-    max-height: 85vh;
-    border-radius: 20px;
-    box-shadow: 0 0 80px #c7a5ff55;
+.magic-petal{
+    position:fixed;
+    width:10px;
+    height:17px;
+    background:#f5bde9;
+    border-radius:100% 0 100% 0;
+    pointer-events:none;
+    z-index:9991;
+    animation:explode .9s ease-out forwards;
 }
 
-.close {
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 50px;
-    height: 50px;
-    border: 0;
-    border-radius: 50%;
-    background: white;
-    color: #a84c9d;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-/* =========================
-   CLICK EXPLOSION
-========================= */
-
-.click-petal {
-    position: fixed;
-    z-index: 99998;
-    pointer-events: none;
-    font-size: 24px;
-    animation: explosion 1s ease-out forwards;
-}
-
-@keyframes explosion {
-    from {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(.3) rotate(0);
+@keyframes explode{
+    from{
+        transform:translate(-50%,-50%) scale(.3);
+        opacity:1;
     }
-    to {
-        opacity: 0;
+    to{
         transform:
             translate(
                 calc(-50% + var(--x)),
                 calc(-50% + var(--y))
             )
-            scale(1.3)
-            rotate(var(--rotate));
+            rotate(540deg)
+            scale(1);
+        opacity:0;
     }
 }
 
-.click-ring {
-    position: fixed;
-    z-index: 99997;
-    pointer-events: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    animation: ring .8s forwards;
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(2,4,12,.88);
+    backdrop-filter:blur(18px);
+    z-index:9000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    opacity:0;
+    visibility:hidden;
+    transition:.4s;
 }
 
-@keyframes ring {
-    to {
-        transform: scale(12);
-        opacity: 0;
-    }
+.lightbox.show{
+    opacity:1;
+    visibility:visible;
 }
 
-/* =========================
-   TOP BUTTONS
-========================= */
-
-.top-buttons {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    gap: 10px;
+.lightbox img{
+    max-width:90vw;
+    max-height:85vh;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.55);
+    box-shadow:
+        0 0 30px rgba(220,170,255,.5),
+        0 0 100px rgba(220,170,255,.25);
 }
 
-.top-buttons button {
-    width: 43px;
-    height: 43px;
-    border: 1px solid #ffffff66;
-    border-radius: 50%;
-    background: #ffffff20;
-    backdrop-filter: blur(10px);
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    transition: .3s;
+.lightbox-close{
+    position:absolute;
+    top:25px;
+    right:30px;
+    font-size:40px;
+    cursor:none;
+    opacity:.8;
 }
 
-.top-buttons button:hover {
-    transform: scale(1.15);
-    background: #ffffff44;
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    background:#050813;
+    padding:50px 20px;
+    text-align:center;
+    color:rgba(255,255,255,.5);
+    font-size:13px;
 }
 
-/* =========================
-   NIGHT MODE
-========================= */
-
-body.night .hero {
-    background: linear-gradient(180deg, #070b25, #1d2852, #344b4d, #1e4837);
+footer strong{
+    color:#f3d6ff;
 }
 
-body.night .gallery-section {
-    background: linear-gradient(180deg, #1e4837, #272040, #17152c);
-}
 
-body.night .section-title,
-body.night .section-subtitle {
-    color: #f4d4ff;
-}
-
-body.night .card {
-    background: #17152ccc;
-    border-color: #d8b8ff55;
-}
-
-body.night .card-content h2 {
-    color: #e8b8ff;
-}
-
-body.night .card-content p {
-    color: #d4c4e9;
-}
-
-/* =========================
+/* =========================================================
    RESPONSIVE
-========================= */
+========================================================= */
 
-@media(max-width: 900px) {
-    .gallery {
-        grid-template-columns: repeat(2, 1fr);
+@media(max-width:900px){
+
+    .gallery{
+        grid-template-columns:1fr;
+        max-width:550px;
     }
 
-    .castle {
-        transform: translateX(-50%) scale(.8);
-    }
-}
-
-@media(max-width: 600px) {
-    .hero {
-        padding-top: 100px;
+    .castle{
+        transform:translateX(-50%) scale(.7);
+        bottom:18%;
     }
 
-    .hero h1 {
-        font-size: 70px;
+    .hero{
+        padding-bottom:150px;
     }
 
-    .hero-description {
-        font-size: 14px;
+    .hero-desc{
+        font-size:15px;
     }
 
-    .moon {
-        width: 80px;
-        height: 80px;
-        top: 80px;
-        right: 8%;
-    }
-
-    .castle {
-        transform: translateX(-50%) scale(.45);
-        bottom: 170px;
-    }
-
-    .gallery {
-        grid-template-columns: 1fr;
-    }
-
-    .card-image {
-        height: 320px;
-    }
-
-    .timeline:before {
-        left: 15px;
+    .timeline::before{
+        left:15px;
     }
 
     .timeline-item,
-    .timeline-item:nth-child(even) {
-        width: 100%;
-        left: 0;
-        text-align: left;
-        padding-left: 45px;
-        padding-right: 0;
+    .timeline-item:nth-child(even){
+        width:100%;
+        margin-left:0;
+        text-align:left;
+        padding-left:50px;
     }
 
-    .timeline-item:before,
-    .timeline-item:nth-child(even):before {
-        left: 0;
-        right: auto;
+    .timeline-item:nth-child(odd){
+        text-align:left;
     }
 
-    .timeline-section h2 {
-        font-size: 45px;
+    .timeline-item:nth-child(odd) .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot{
+        left:8px;
+        right:auto;
     }
 
-    .mouse-flower {
-        display: none;
+    .controls{
+        top:12px;
+        right:12px;
+    }
+
+    .control{
+        width:45px;
+        height:45px;
+        font-size:18px;
     }
 }
 
-@media(prefers-reduced-motion: reduce) {
-    *, *:before, *:after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
+@media(max-width:600px){
+
+    body{
+        cursor:auto;
+    }
+
+    .cursor-flower{
+        display:none;
+    }
+
+    .welcome{
+        font-size:10px;
+        letter-spacing:5px;
+    }
+
+    .hero-title{
+        font-size:75px;
+        letter-spacing:-3px;
+        line-height:.86;
+    }
+
+    .hero-desc{
+        font-size:14px;
+        line-height:1.9;
+    }
+
+    .section-title{
+        font-size:50px;
+    }
+
+    .castle{
+        transform:translateX(-50%) scale(.48);
+        bottom:14%;
+    }
+
+    .moon{
+        width:90px;
+        height:90px;
+        right:10%;
+    }
+
+    .gallery-section{
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    .timeline-section{
+        padding-left:20px;
+        padding-right:20px;
     }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- =========================
+<!-- ======================================================
      LOADING
-========================= -->
+====================================================== -->
 
 <div id="loader">
 
-    <div class="loader-flower">
+    <div class="loader-content">
 
-        <div class="loader-petal" style="--angle:0deg;--delay:.1s"></div>
-        <div class="loader-petal" style="--angle:45deg;--delay:.3s"></div>
-        <div class="loader-petal" style="--angle:90deg;--delay:.5s"></div>
-        <div class="loader-petal" style="--angle:135deg;--delay:.7s"></div>
-        <div class="loader-petal" style="--angle:180deg;--delay:.9s"></div>
-        <div class="loader-petal" style="--angle:225deg;--delay:1.1s"></div>
-        <div class="loader-petal" style="--angle:270deg;--delay:1.3s"></div>
-        <div class="loader-petal" style="--angle:315deg;--delay:1.5s"></div>
+        <div class="loader-orbit">
 
-        <div class="loader-center"></div>
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
 
-    </div>
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
 
-    <div class="loader-title">Kim Dokja's Garden</div>
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
 
-    <div class="loader-text">
-        กำลังเปิดประตูสู่โลกแห่งเรื่องราว...
-    </div>
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
 
-    <div class="loader-bar">
-        <div class="loader-progress"></div>
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
+
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
+
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
+
+            <div class="loader-flower">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <i></i>
+            </div>
+
+        </div>
+
+        <div class="loader-title">
+            KIM DOKJA
+        </div>
+
+        <div class="loader-sub">
+            OPENING THE STORY...
+        </div>
+
+        <div class="loader-line"></div>
+
     </div>
 
 </div>
 
-<!-- เอฟเฟกต์ลอยต่าง ๆ -->
 
-<div id="effects"></div>
+<!-- ======================================================
+     CURSOR
+====================================================== -->
 
-<div class="mouse-flower" id="mouseFlower">🌸</div>
+<div class="cursor-flower" id="cursorFlower">
 
-<!-- ปุ่มด้านบน -->
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
 
-<div class="top-buttons">
-
-    <button id="nightButton" title="เปลี่ยนโหมด">🌙</button>
-
-    <button id="musicButton" title="เอฟเฟกต์เสียง">♫</button>
+    <i></i>
 
 </div>
 
-<!-- =========================
-     HERO
-========================= -->
 
-<section class="hero">
+<!-- ======================================================
+     CONTROLS
+====================================================== -->
 
-    <div class="stars"></div>
+<div class="controls">
 
-    <div class="moon"></div>
+    <button
+        class="control"
+        id="worldBtn"
+        title="เปลี่ยนบรรยากาศ">
+        🌸
+    </button>
 
-    <!-- ปราสาทสร้างด้วย CSS -->
+    <button
+        class="control"
+        id="musicBtn"
+        title="เปิด / ปิดเสียง">
+        ♪
+    </button>
 
-    <div class="castle">
+</div>
 
-        <div class="castle-main"></div>
+
+<!-- ======================================================
+     WORLD
+====================================================== -->
+
+<main class="world" id="world">
+
+    <div class="sky" id="sky">
+
+        <div class="moon"></div>
+
+        <div class="cloud parallax" data-speed="0.15"></div>
+
+        <div class="cloud two parallax" data-speed="0.08"></div>
+
+    </div>
+
+
+    <!-- PARALLAX MOUNTAINS -->
+
+    <div
+        class="mountain one parallax"
+        data-speed="0.05">
+    </div>
+
+    <div
+        class="mountain two parallax"
+        data-speed="0.08">
+    </div>
+
+    <div
+        class="mountain three parallax"
+        data-speed="0.12">
+    </div>
+
+
+    <!-- CASTLE -->
+
+    <div
+        class="castle parallax"
+        data-speed="0.025">
 
         <div class="tower left"></div>
 
         <div class="tower right"></div>
 
-        <div class="castle-window"></div>
+        <div class="castle-body">
 
-    </div>
+            <div class="castle-window"></div>
 
-    <div class="hero-content">
+            <div class="castle-door"></div>
 
-        <div class="hero-small">
-            ✦ WELCOME TO THE STORY ✦
-        </div>
-
-        <h1>
-            Kim<br>Dokja
-        </h1>
-
-        <p class="hero-description">
-
-            ชายหนุ่มธรรมดาที่อ่านนิยายเรื่องหนึ่ง
-            จนจบเพียงคนเดียว
-
-            <br>
-
-            ก่อนที่โลกในนิยายจะกลายเป็นความจริง
-            และเขาต้องใช้ความรู้จากนิยายเพื่อเอาชีวิตรอด
-
-        </p>
-
-        <a href="#gallery" class="magic-button">
-            ✦ เปิดประตูสู่แกลเลอรี ✦
-        </a>
-
-    </div>
-
-    <!-- ทุ่งหญ้า -->
-
-    <div class="grass-field" id="grassField">
-
-        <div class="field-flower"
-             style="--left:5%;--bottom:45px;--size:35px;--speed:3s">
-            🌷
-        </div>
-
-        <div class="field-flower"
-             style="--left:15%;--bottom:70px;--size:30px;--speed:4s">
-            🌼
-        </div>
-
-        <div class="field-flower"
-             style="--left:28%;--bottom:40px;--size:38px;--speed:3s">
-            🌸
-        </div>
-
-        <div class="field-flower"
-             style="--left:43%;--bottom:75px;--size:32px;--speed:4s">
-            🌺
-        </div>
-
-        <div class="field-flower"
-             style="--left:57%;--bottom:50px;--size:38px;--speed:3s">
-            🌻
-        </div>
-
-        <div class="field-flower"
-             style="--left:72%;--bottom:70px;--size:34px;--speed:4s">
-            🌷
-        </div>
-
-        <div class="field-flower"
-             style="--left:88%;--bottom:45px;--size:40px;--speed:3s">
-            🌸
         </div>
 
     </div>
 
-</section>
 
-<!-- =========================
+    <!-- BUTTERFLIES -->
+
+    <div class="creature butterfly">
+        🦋
+    </div>
+
+    <div
+        class="creature butterfly"
+        style="animation-delay:-7s;font-size:20px;">
+        🦋
+    </div>
+
+    <div class="creature bee">
+        🐝
+    </div>
+
+
+    <!-- PETALS -->
+
+    <div class="petals" id="petals"></div>
+
+
+    <!-- HERO -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="welcome">
+                ✦ WELCOME TO THE STORY ✦
+            </div>
+
+            <!--
+              ใช้ padding + overflow visible
+              เพื่อให้ตัว J และหาง J ไม่ถูกตัด
+            -->
+
+            <h1 class="hero-title">
+                Kim Dokja
+
+                <span class="title-spark"></span>
+            </h1>
+
+            <p class="hero-desc">
+
+                ชายหนุ่มธรรมดาที่อ่านนิยายเรื่องหนึ่ง
+                จนจบเพียงคนเดียว<br>
+
+                ก่อนที่โลกในนิยายจะกลายเป็นความจริง
+                และเขาต้องใช้ความรู้จากนิยายเพื่อเอาชีวิตรอด
+
+            </p>
+
+            <a
+                href="#gallery"
+                class="story-button">
+
+                ✦ เปิดประตูสู่แกลเลอรี ✦
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- MEADOW -->
+
+    <div class="meadow" id="meadow"></div>
+
+</main>
+
+
+<!-- ======================================================
      GALLERY
-========================= -->
+====================================================== -->
 
-<section class="gallery-section" id="gallery">
+<section
+    class="gallery-section"
+    id="gallery">
 
     <h2 class="section-title">
-        ✦ My Gallery ✦
+        My Gallery
     </h2>
 
-    <p class="section-subtitle">
-        สามเรื่องราวจากโลกของ Omniscient Reader
+    <p class="section-sub">
+        เรื่องราวจากโลกของ Omniscient Reader
     </p>
+
 
     <div class="gallery">
 
-        <!-- รูปที่ 1 -->
 
-        <div class="card">
+        <!-- CARD 1 -->
+
+        <article class="card">
 
             <div class="card-image">
 
                 <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYQ0JK1E2Kco34ND9uMKlLjxTmya-QATPvPHj8kEfMTQ&s=10"
-                    alt="Kim Dokja"
-                    loading="lazy"
-                >
+                    alt="Kim Dokja">
 
-                <div class="image-overlay">
-                    <div class="zoom-icon">🔍</div>
-                </div>
+                <div class="image-shine"></div>
 
             </div>
 
-            <div class="card-content">
+            <div class="card-info">
 
-                <h2>🌷 Kim Dokja</h2>
+                <h3>
+                    ✿ Kim Dokja
+                </h3>
 
                 <p>
-                    ชายหนุ่มธรรมดาที่อ่านนิยาย
-                    เรื่องหนึ่งจนจบเพียงคนเดียว
-
-                    <br><br>
-
-                    ก่อนที่โลกในนิยายจะกลายเป็นความจริง
-                    และเขาต้องใช้ความรู้จากนิยายเพื่อเอาชีวิตรอด
+                    ชายหนุ่มธรรมดาที่อ่านนิยายเรื่องหนึ่ง
+                    จนจบเพียงคนเดียว ก่อนที่โลกในนิยายจะ
+                    กลายเป็นความจริง และเขาต้องใช้ความรู้
+                    จากนิยายเพื่อเอาชีวิตรอด
                 </p>
+
+                <span class="card-tag">
+                    THE READER
+                </span>
 
             </div>
 
-        </div>
+        </article>
 
-        <!-- รูปที่ 2 -->
 
-        <div class="card">
+        <!-- CARD 2 -->
+
+        <article class="card">
 
             <div class="card-image">
 
                 <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB2LDrC0tpvYwP2F12CIMpZA9yhdQUQXBuYRsR-Y8glw&s=10"
-                    alt="Kimcom"
-                    loading="lazy"
-                >
+                    alt="KimCom">
 
-                <div class="image-overlay">
-                    <div class="zoom-icon">🔍</div>
-                </div>
+                <div class="image-shine"></div>
 
             </div>
 
-            <div class="card-content">
+            <div class="card-info">
 
-                <h2>🌸 KimCom</h2>
+                <h3>
+                    ✿ KimCom
+                </h3>
 
                 <p>
-                    Kimcom
-                    [Kim Dokja Company]
-
-                    <br><br>
-
                     เป็นภาพที่มีบรรยากาศอบอุ่น
-                    และให้ความรู้สึกแตกต่างจากฉากการต่อสู้
-                    ภายในเรื่อง
+                    และให้ความรู้สึกแตกต่างจาก
+                    ฉากการต่อสู้ภายในเรื่อง
                 </p>
+
+                <span class="card-tag">
+                    KIM DOKJA COMPANY
+                </span>
 
             </div>
 
-        </div>
+        </article>
 
-        <!-- รูปที่ 3 -->
 
-        <div class="card">
+        <!-- CARD 3 -->
+
+        <article class="card">
 
             <div class="card-image">
 
                 <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReAqWR1xE6xUrRBRTMEEN4vFM9bj4Sott5WGxiL6LjIw&s=10"
-                    alt="Oldest Dream"
-                    loading="lazy"
-                >
+                    alt="Oldest Dream">
 
-                <div class="image-overlay">
-                    <div class="zoom-icon">🔍</div>
-                </div>
+                <div class="image-shine"></div>
 
             </div>
 
-            <div class="card-content">
+            <div class="card-info">
 
-                <h2>🌺 Oldest Dream</h2>
+                <h3>
+                    ✿ Oldest Dream
+                </h3>
 
                 <p>
                     ผู้ที่มีบทบาทต่อเรื่องราวทั้งหมด
                     และเป็นส่วนสำคัญของการดำเนินเรื่อง
-
-                    <br><br>
-
-                    เชื่อมโยงระหว่างผู้อ่าน
-                    ตัวละคร และเรื่องราว
+                    ที่เชื่อมโยงระหว่างผู้อ่าน ตัวละคร
+                    และเรื่องราว
                 </p>
+
+                <span class="card-tag">
+                    THE DREAM
+                </span>
 
             </div>
 
-        </div>
+        </article>
 
     </div>
 
 </section>
 
-<!-- =========================
-     STORY TIMELINE
-========================= -->
+
+<!-- ======================================================
+     TIMELINE
+====================================================== -->
 
 <section class="timeline-section">
 
-    <h2>✦ Story Timeline ✦</h2>
+    <h2 class="section-title">
+        Story Timeline
+    </h2>
+
+    <p class="section-sub">
+        เส้นทางของ Kim Dokja...เรื่องราวการเป็นผู้อ่าน
+        จนกลายเป็นส่วนหนึ่งของเรื่อง
+    </p>
+
 
     <div class="timeline">
 
+
         <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
 
             <div class="timeline-box">
 
-                <h3>CHAPTER 01 — The Reader</h3>
+                <div class="chapter">
+                    CHAPTER 01
+                </div>
+
+                <h3>
+                    The Reader
+                </h3>
 
                 <p>
-                    เรื่องราวของผู้อ่านธรรมดา
-                    ผู้เป็นเพียงคนเดียวที่อ่านนิยายจนจบ
+                    จุดเริ่มต้นของชายหนุ่มธรรมดา
+                    ผู้เป็นเพียงคนเดียวที่อ่านนิยายเรื่องนี้จนจบ
                 </p>
 
             </div>
 
         </div>
 
+
         <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
 
             <div class="timeline-box">
 
-                <h3>CHAPTER 02 — The Scenario</h3>
+                <div class="chapter">
+                    CHAPTER 02
+                </div>
+
+                <h3>
+                    The Scenario
+                </h3>
 
                 <p>
-                    โลกของนิยายกลายเป็นความจริง
-                    และการเอาชีวิตรอดก็เริ่มต้นขึ้น
+                    โลกที่เคยเป็นเพียงเรื่องราว
+                    กลายเป็นความจริงตรงหน้า
                 </p>
 
             </div>
 
         </div>
 
+
         <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
 
             <div class="timeline-box">
 
-                <h3>CHAPTER 03 — Kim Dokja Company</h3>
+                <div class="chapter">
+                    CHAPTER 03
+                </div>
+
+                <h3>
+                    Kim Dokja Company
+                </h3>
 
                 <p>
-                    การพบพานของผู้คน
-                    มิตรภาพ และความผูกพันท่ามกลางสถานการณ์
+                    จากคนคนเดียว กลายเป็นกลุ่มคน
+                    ที่ร่วมเดินทางผ่านเรื่องราวไปด้วยกัน
                 </p>
 
             </div>
 
         </div>
 
+
         <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
 
             <div class="timeline-box">
 
-                <h3>CHAPTER 04 — The Oldest Dream</h3>
+                <div class="chapter">
+                    CHAPTER 04
+                </div>
+
+                <h3>
+                    The Oldest Dream
+                </h3>
 
                 <p>
-                    เรื่องราวที่เชื่อมโยงผู้อ่าน
-                    ตัวละคร และโลกแห่งนิยายเข้าด้วยกัน
+                    ความฝันที่อยู่เบื้องหลังเรื่องราว
+                    และความสัมพันธ์ระหว่างผู้อ่านกับเรื่อง
                 </p>
 
             </div>
@@ -1330,408 +1980,875 @@ body.night .card-content p {
 
 </section>
 
-<!-- =========================
-     FOOTER
-========================= -->
 
-<footer>
+<!-- ======================================================
+     SECRET
+====================================================== -->
 
-    <div style="font-size:40px">
-        🌸 ✦ 🦋 ✦ 🌸
+<section class="secret">
+
+    <button
+        class="secret-button"
+        id="secretBtn">
+
+        ✦ คลิกเพื่อค้นหาความลับ ✦
+
+    </button>
+
+
+    <div
+        class="secret-text"
+        id="secretText">
+
+        “บางเรื่องราว...
+        จะยังคงมีอยู่ตราบใดที่ยังมีใครสักคนอ่านมัน”
+
+        <br><br>
+
+        — The Story Continues —
+
     </div>
 
-    <h2>Every Story Has Meaning</h2>
+</section>
 
-    <p>ทุกเรื่องราวมีความหมาย</p>
 
-    <p style="margin-top:20px">
-        © 2026 Kim Dokja Gallery
-    </p>
-
-</footer>
-
-<!-- =========================
+<!-- ======================================================
      LIGHTBOX
-========================= -->
+====================================================== -->
 
-<div id="lightbox">
+<div
+    class="lightbox"
+    id="lightbox">
 
-    <div class="lightbox-inner">
-
-        <button class="close" id="closeButton">✕</button>
-
-        <img id="lightboxImage" src="" alt="รูปภาพขนาดใหญ่">
-
+    <div
+        class="lightbox-close"
+        id="lightboxClose">
+        ×
     </div>
+
+    <img
+        id="lightboxImg"
+        src=""
+        alt="">
 
 </div>
 
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <strong>Kim Dokja</strong>
+
+    <br>
+
+    A small corner of the story.
+
+    <br><br>
+
+    ✦ Every story needs a reader ✦
+
+</footer>
+
+
 <script>
 
-/* =========================
-   LOADING
-========================= */
+/* =========================================================
+   LOADER
+========================================================= */
 
-window.addEventListener("load", () => {
+window.addEventListener("load",()=>{
 
-    setTimeout(() => {
+    setTimeout(()=>{
 
         document
             .getElementById("loader")
             .classList.add("hide");
 
-    }, 3300);
+    },3300);
 
 });
 
-/* =========================
+
+/* =========================================================
+   STARS
+========================================================= */
+
+const sky = document.getElementById("sky");
+
+for(let i=0;i<100;i++){
+
+    const star=document.createElement("div");
+
+    star.className="star";
+
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*65+"%";
+
+    star.style.animationDelay=
+        Math.random()*4+"s";
+
+    star.style.opacity=
+        .2+Math.random()*.8;
+
+    sky.appendChild(star);
+}
+
+
+/* =========================================================
    GRASS
-========================= */
+========================================================= */
 
-const grassField = document.getElementById("grassField");
+const meadow=
+    document.getElementById("meadow");
 
-for (let i = 0; i < 180; i++) {
+for(let i=0;i<180;i++){
 
-    const grass = document.createElement("div");
+    const grass=
+        document.createElement("div");
 
-    grass.className = "grass";
+    grass.className="grass";
 
-    grass.style.left = Math.random() * 100 + "%";
+    grass.style.left=
+        Math.random()*100+"%";
 
-    grass.style.setProperty(
-        "--height",
-        25 + Math.random() * 80 + "px"
-    );
+    grass.style.height=
+        25+Math.random()*70+"px";
 
-    grass.style.setProperty(
-        "--speed",
-        2 + Math.random() * 3 + "s"
-    );
+    grass.style.opacity=
+        .3+Math.random()*.7;
 
-    grass.style.animationDelay = Math.random() * 3 + "s";
+    grass.style.animationDelay=
+        Math.random()*3+"s";
 
-    grassField.appendChild(grass);
-
+    meadow.appendChild(grass);
 }
 
-/* =========================
+
+/* =========================================================
+   FLOWERS
+========================================================= */
+
+for(let i=0;i<28;i++){
+
+    const flower=
+        document.createElement("div");
+
+    flower.className="meadow-flower";
+
+    flower.style.left=
+        Math.random()*100+"%";
+
+    flower.style.bottom=
+        8+Math.random()*25+"%";
+
+    flower.style.transform=
+        `scale(${.55+Math.random()*.8})`;
+
+    flower.style.animationDelay=
+        Math.random()*4+"s";
+
+    meadow.appendChild(flower);
+}
+
+
+/* =========================================================
    FIREFLIES
-========================= */
+========================================================= */
 
-const effects = document.getElementById("effects");
+for(let i=0;i<45;i++){
 
-for (let i = 0; i < 35; i++) {
+    const f=
+        document.createElement("div");
 
-    const firefly = document.createElement("div");
+    f.className="firefly";
 
-    firefly.className = "firefly";
+    f.style.left=
+        Math.random()*100+"%";
 
-    firefly.style.left = Math.random() * 100 + "%";
-    firefly.style.top = Math.random() * 100 + "%";
-    firefly.style.animationDelay = Math.random() * 5 + "s";
+    f.style.top=
+        20+Math.random()*70+"%";
 
-    effects.appendChild(firefly);
+    f.style.animationDelay=
+        Math.random()*5+"s";
 
+    f.style.animationDuration=
+        3+Math.random()*5+"s";
+
+    document.body.appendChild(f);
 }
 
-/* =========================
-   FLOWER RAIN
-========================= */
 
-const flowerTypes = ["🌸", "🌷", "🌺", "🌼", "💮", "✿"];
+/* =========================================================
+   FALLING PETALS
+========================================================= */
 
-function createPetal() {
+const petals=
+    document.getElementById("petals");
 
-    const petal = document.createElement("div");
+function createPetal(){
 
-    petal.className = "petal";
+    const p=
+        document.createElement("div");
 
-    petal.innerHTML =
-        flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+    p.className="petal";
 
-    petal.style.left = Math.random() * 100 + "vw";
+    p.style.left=
+        Math.random()*100+"%";
 
-    petal.style.fontSize = 10 + Math.random() * 18 + "px";
-
-    petal.style.setProperty(
-        "--sway",
-        -120 + Math.random() * 240 + "px"
+    p.style.setProperty(
+        "--drift",
+        (-100+Math.random()*200)+"px"
     );
 
-    petal.style.animationDuration =
-        6 + Math.random() * 8 + "s";
+    p.style.animationDuration=
+        5+Math.random()*6+"s";
 
-    effects.appendChild(petal);
+    p.style.opacity=
+        .3+Math.random()*.7;
 
-    setTimeout(() => petal.remove(), 15000);
+    p.style.transform=
+        `rotate(${Math.random()*360}deg)`;
 
+    petals.appendChild(p);
+
+    setTimeout(()=>{
+        p.remove();
+    },12000);
 }
 
-setInterval(createPetal, 350);
+setInterval(createPetal,420);
 
-/* =========================
-   MOUSE FOLLOWER
-========================= */
 
-const mouseFlower = document.getElementById("mouseFlower");
+/* =========================================================
+   FLOWER CURSOR
+========================================================= */
 
-let mouseX = 0;
-let mouseY = 0;
-let flowerX = 0;
-let flowerY = 0;
+const cursorFlower=
+    document.getElementById("cursorFlower");
 
-document.addEventListener("mousemove", event => {
+document.addEventListener("mousemove",(e)=>{
 
-    mouseX = event.clientX;
-    mouseY = event.clientY;
+    cursorFlower.style.left=e.clientX+"px";
+    cursorFlower.style.top=e.clientY+"px";
 
 });
 
-function animateMouseFlower() {
 
-    flowerX += (mouseX - flowerX) * .15;
-    flowerY += (mouseY - flowerY) * .15;
+/* =========================================================
+   FLOWERS FOLLOW MOUSE
+========================================================= */
 
-    mouseFlower.style.left = flowerX + "px";
-    mouseFlower.style.top = flowerY + "px";
+document.addEventListener("mousemove",(e)=>{
 
-    requestAnimationFrame(animateMouseFlower);
+    if(Math.random()>.94){
 
-}
+        const flower=
+            document.createElement("div");
 
-animateMouseFlower();
+        flower.className="magic-petal";
 
-/* =========================
-   CLICK FLOWER EXPLOSION
-========================= */
+        flower.style.left=e.clientX+"px";
+        flower.style.top=e.clientY+"px";
 
-document.addEventListener("click", event => {
-
-    if (
-        event.target.closest("button") ||
-        event.target.closest("a")
-    ) return;
-
-    const ring = document.createElement("div");
-
-    ring.className = "click-ring";
-
-    ring.style.left = event.clientX + "px";
-    ring.style.top = event.clientY + "px";
-
-    effects.appendChild(ring);
-
-    setTimeout(() => ring.remove(), 900);
-
-    for (let i = 0; i < 28; i++) {
-
-        const petal = document.createElement("div");
-
-        petal.className = "click-petal";
-
-        petal.innerHTML =
-            flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
-
-        petal.style.left = event.clientX + "px";
-        petal.style.top = event.clientY + "px";
-
-        const angle = Math.PI * 2 / 28 * i;
-
-        const distance = 100 + Math.random() * 180;
-
-        petal.style.setProperty("--x", Math.cos(angle) * distance + "px");
-        petal.style.setProperty("--y", Math.sin(angle) * distance + "px");
-
-        petal.style.setProperty(
-            "--rotate",
-            -180 + Math.random() * 360 + "deg"
+        flower.style.setProperty(
+            "--x",
+            (-30+Math.random()*60)+"px"
         );
 
-        effects.appendChild(petal);
+        flower.style.setProperty(
+            "--y",
+            (-30+Math.random()*60)+"px"
+        );
 
-        setTimeout(() => petal.remove(), 1100);
+        document.body.appendChild(flower);
+
+        setTimeout(()=>{
+            flower.remove();
+        },900);
 
     }
 
 });
 
-/* =========================
-   BUTTERFLIES & BEES
-========================= */
 
-function createCreature(emoji, duration) {
+/* =========================================================
+   CLICK MAGIC EXPLOSION
+========================================================= */
 
-    const creature = document.createElement("div");
+document.addEventListener("click",(e)=>{
 
-    creature.className = "creature";
+    if(
+        e.target.closest(".control") ||
+        e.target.closest(".secret-button") ||
+        e.target.closest(".lightbox-close")
+    ){
+        return;
+    }
 
-    creature.innerHTML = emoji;
 
-    creature.style.setProperty("--duration", duration + "s");
+    const ring=
+        document.createElement("div");
 
-    const randomX = () => Math.random() * 90 + "vw";
-    const randomY = () => Math.random() * 80 + "vh";
+    ring.className="magic-ring";
 
-    for (let i = 1; i <= 4; i++) {
+    ring.style.left=e.clientX+"px";
+    ring.style.top=e.clientY+"px";
 
-        creature.style.setProperty("--x" + i, randomX());
-        creature.style.setProperty("--y" + i, randomY());
+    document.body.appendChild(ring);
+
+    setTimeout(()=>{
+        ring.remove();
+    },900);
+
+
+    for(let i=0;i<28;i++){
+
+        const p=
+            document.createElement("div");
+
+        p.className="magic-petal";
+
+        p.style.left=e.clientX+"px";
+        p.style.top=e.clientY+"px";
+
+        const angle=
+            Math.random()*Math.PI*2;
+
+        const distance=
+            80+Math.random()*160;
+
+        p.style.setProperty(
+            "--x",
+            Math.cos(angle)*distance+"px"
+        );
+
+        p.style.setProperty(
+            "--y",
+            Math.sin(angle)*distance+"px"
+        );
+
+        document.body.appendChild(p);
+
+        setTimeout(()=>{
+            p.remove();
+        },950);
 
     }
 
-    document.body.appendChild(creature);
+});
+
+
+/* =========================================================
+   PARALLAX
+========================================================= */
+
+const parallaxElements=
+    document.querySelectorAll(".parallax");
+
+document.addEventListener("mousemove",(e)=>{
+
+    const x=
+        (e.clientX/window.innerWidth-.5);
+
+    const y=
+        (e.clientY/window.innerHeight-.5);
+
+    parallaxElements.forEach(el=>{
+
+        const speed=
+            Number(el.dataset.speed||.05);
+
+        el.style.transform=
+            `translate(${x*speed*150}px,
+                       ${y*speed*100}px)`;
+
+    });
+
+});
+
+
+/* =========================================================
+   CARD 3D TILT
+========================================================= */
+
+document
+.querySelectorAll(".card")
+.forEach(card=>{
+
+    card.addEventListener("mousemove",(e)=>{
+
+        const rect=
+            card.getBoundingClientRect();
+
+        const x=
+            e.clientX-rect.left;
+
+        const y=
+            e.clientY-rect.top;
+
+        const rotateY=
+            (x/rect.width-.5)*14;
+
+        const rotateX=
+            -(y/rect.height-.5)*14;
+
+        card.style.transform=
+            `perspective(900px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateY(-8px)`;
+
+        card.style.boxShadow=
+            "0 35px 90px rgba(215,160,255,.28)";
+
+    });
+
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.transform=
+            "perspective(900px) rotateX(0) rotateY(0)";
+
+        card.style.boxShadow=
+            "0 30px 70px rgba(0,0,0,.4)";
+
+    });
+
+});
+
+
+/* =========================================================
+   IMAGE LIGHTBOX
+========================================================= */
+
+const lightbox=
+    document.getElementById("lightbox");
+
+const lightboxImg=
+    document.getElementById("lightboxImg");
+
+document
+.querySelectorAll(".card-image img")
+.forEach(img=>{
+
+    img.addEventListener("click",()=>{
+
+        lightboxImg.src=img.src;
+
+        lightbox.classList.add("show");
+
+    });
+
+});
+
+
+document
+.getElementById("lightboxClose")
+.addEventListener("click",()=>{
+
+    lightbox.classList.remove("show");
+
+});
+
+
+lightbox.addEventListener("click",(e)=>{
+
+    if(e.target===lightbox){
+
+        lightbox.classList.remove("show");
+
+    }
+
+});
+
+
+/* =========================================================
+   DAY → SUNSET → NIGHT
+========================================================= */
+
+const world=
+    document.getElementById("world");
+
+const worldBtn=
+    document.getElementById("worldBtn");
+
+let worldMode=0;
+
+worldBtn.addEventListener("click",()=>{
+
+    worldMode++;
+
+    if(worldMode===1){
+
+        world.classList.add("sunset");
+        world.classList.remove("night");
+
+        worldBtn.textContent="🌇";
+
+    }
+
+    else if(worldMode===2){
+
+        world.classList.remove("sunset");
+        world.classList.add("night");
+
+        worldBtn.textContent="🌙";
+
+    }
+
+    else{
+
+        world.classList.remove("sunset","night");
+
+        worldBtn.textContent="🌸";
+
+        worldMode=0;
+
+    }
+
+});
+
+
+/* =========================================================
+   SECRET MESSAGE
+========================================================= */
+
+const secretBtn=
+    document.getElementById("secretBtn");
+
+const secretText=
+    document.getElementById("secretText");
+
+secretBtn.addEventListener("click",()=>{
+
+    secretText.classList.toggle("show");
+
+    if(secretText.classList.contains("show")){
+
+        secretBtn.textContent=
+            "✦ คุณพบความลับแล้ว ✦";
+
+    }else{
+
+        secretBtn.textContent=
+            "✦ คลิกเพื่อค้นหาความลับ ✦";
+
+    }
+
+});
+
+
+/* =========================================================
+   FLOWER BLOOM WHEN SCROLLING
+========================================================= */
+
+const cards=
+    document.querySelectorAll(".card");
+
+const observer=
+    new IntersectionObserver(
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(entry.isIntersecting){
+
+                    entry.target.animate(
+                        [
+                            {
+                                opacity:0,
+                                transform:
+                                "translateY(60px) scale(.96)"
+                            },
+                            {
+                                opacity:1,
+                                transform:
+                                "translateY(0) scale(1)"
+                            }
+                        ],
+                        {
+                            duration:900,
+                            easing:"cubic-bezier(.2,.8,.2,1)",
+                            fill:"forwards"
+                        }
+                    );
+
+                }
+
+            });
+
+        },
+        {threshold:.15}
+    );
+
+cards.forEach(card=>observer.observe(card));
+
+
+/* =========================================================
+   AMBIENT MUSIC
+   ใช้ Web Audio สร้างเสียงบรรยากาศ
+   ไม่ต้องหาไฟล์ MP3
+========================================================= */
+
+let audioContext=null;
+let masterGain=null;
+let musicOn=false;
+let musicTimer=null;
+
+const musicBtn=
+    document.getElementById("musicBtn");
+
+function startAmbient(){
+
+    if(musicOn)return;
+
+    audioContext=
+        new (window.AudioContext||
+             window.webkitAudioContext)();
+
+    masterGain=
+        audioContext.createGain();
+
+    masterGain.gain.value=.035;
+
+    masterGain.connect(
+        audioContext.destination
+    );
+
+    const notes=[
+        261.63,
+        329.63,
+        392.00,
+        523.25
+    ];
+
+    let index=0;
+
+    function playNote(){
+
+        if(!musicOn)return;
+
+        const osc=
+            audioContext.createOscillator();
+
+        const gain=
+            audioContext.createGain();
+
+        osc.type="sine";
+
+        osc.frequency.value=
+            notes[index%notes.length];
+
+        gain.gain.setValueAtTime(
+            0,
+            audioContext.currentTime
+        );
+
+        gain.gain.linearRampToValueAtTime(
+            .7,
+            audioContext.currentTime+.5
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            audioContext.currentTime+3
+        );
+
+        osc.connect(gain);
+        gain.connect(masterGain);
+
+        osc.start();
+        osc.stop(
+            audioContext.currentTime+3
+        );
+
+        index++;
+
+        musicTimer=
+            setTimeout(playNote,1800);
+
+    }
+
+    playNote();
 
 }
 
-createCreature("🦋", 18);
-createCreature("🦋", 23);
-createCreature("🦋", 27);
-createCreature("🐝", 20);
-createCreature("🐝", 25);
 
-/* =========================
-   CARD SCROLL REVEAL
-========================= */
+function stopAmbient(){
 
-const cards = document.querySelectorAll(".card");
+    musicOn=false;
 
-const observer = new IntersectionObserver(entries => {
+    clearTimeout(musicTimer);
 
-    entries.forEach(entry => {
+    if(audioContext){
 
-        if (entry.isIntersecting) {
+        audioContext.close();
 
-            entry.target.classList.add("show");
+        audioContext=null;
+
+    }
+
+}
+
+
+musicBtn.addEventListener("click",()=>{
+
+    if(!musicOn){
+
+        musicOn=true;
+
+        startAmbient();
+
+        musicBtn.textContent="♫";
+
+    }else{
+
+        stopAmbient();
+
+        musicBtn.textContent="♪";
+
+    }
+
+});
+
+
+/* =========================================================
+   KEYBOARD SECRET
+========================================================= */
+
+let typed="";
+
+document.addEventListener("keydown",(e)=>{
+
+    typed+=e.key.toLowerCase();
+
+    typed=typed.slice(-12);
+
+    if(typed.includes("dokja")){
+
+        for(let i=0;i<70;i++){
+
+            createPetal();
 
         }
 
-    });
+        typed="";
 
-}, { threshold: .15 });
-
-cards.forEach(card => observer.observe(card));
-
-/* =========================
-   3D CARD TILT
-========================= */
-
-cards.forEach(card => {
-
-    card.addEventListener("mousemove", event => {
-
-        const rect = card.getBoundingClientRect();
-
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateY = (x - centerX) / 18;
-        const rotateX = -(y - centerY) / 18;
-
-        card.style.transform =
-            `translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-
-    });
-
-    card.addEventListener("mouseleave", () => {
-
-        card.style.transform =
-            "translateY(0) rotateX(0deg) rotateY(0deg)";
-
-    });
-
-});
-
-/* =========================
-   LIGHTBOX
-========================= */
-
-const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
-
-cards.forEach(card => {
-
-    card.addEventListener("click", () => {
-
-        const image = card.querySelector("img");
-
-        lightboxImage.src = image.src;
-
-        lightbox.classList.add("active");
-
-        document.body.style.overflow = "hidden";
-
-    });
-
-});
-
-function closeLightbox() {
-
-    lightbox.classList.remove("active");
-
-    document.body.style.overflow = "auto";
-
-}
-
-document.getElementById("closeButton")
-    .addEventListener("click", closeLightbox);
-
-lightbox.addEventListener("click", event => {
-
-    if (event.target === lightbox) {
-        closeLightbox();
     }
 
 });
 
-document.addEventListener("keydown", event => {
 
-    if (event.key === "Escape") {
-        closeLightbox();
-    }
+/* =========================================================
+   CLICK CARD = MAGIC FLASH
+========================================================= */
+
+document
+.querySelectorAll(".card")
+.forEach(card=>{
+
+    card.addEventListener("click",()=>{
+
+        card.animate(
+            [
+                {
+                    filter:"brightness(1)"
+                },
+                {
+                    filter:
+                    "brightness(1.8) saturate(1.4)"
+                },
+                {
+                    filter:"brightness(1)"
+                }
+            ],
+            {
+                duration:700
+            }
+        );
+
+    });
 
 });
 
-/* =========================
-   NIGHT MODE
-========================= */
 
-document.getElementById("nightButton")
-    .addEventListener("click", () => {
+/* =========================================================
+   PERIODIC MAGIC PARTICLES
+========================================================= */
 
-        document.body.classList.toggle("night");
+setInterval(()=>{
 
-        const button = document.getElementById("nightButton");
+    const x=
+        10+Math.random()*80;
 
-        button.textContent =
-            document.body.classList.contains("night")
-            ? "☀️"
-            : "🌙";
+    const y=
+        15+Math.random()*65;
 
-    });
+    const spark=
+        document.createElement("div");
 
-/* =========================
-   MUSIC BUTTON
-========================= */
+    spark.style.position="fixed";
+    spark.style.left=x+"%";
+    spark.style.top=y+"%";
+    spark.style.width="4px";
+    spark.style.height="4px";
+    spark.style.borderRadius="50%";
+    spark.style.background="white";
+    spark.style.boxShadow=
+        "0 0 10px white,0 0 25px #e7b0ff";
+    spark.style.zIndex="20";
+    spark.style.pointerEvents="none";
 
-let musicOn = false;
+    document.body.appendChild(spark);
 
-document.getElementById("musicButton")
-    .addEventListener("click", () => {
+    spark.animate(
+        [
+            {
+                opacity:0,
+                transform:"scale(.3)"
+            },
+            {
+                opacity:1,
+                transform:"scale(2)"
+            },
+            {
+                opacity:0,
+                transform:"scale(.2)"
+            }
+        ],
+        {
+            duration:1800
+        }
+    );
 
-        musicOn = !musicOn;
+    setTimeout(()=>{
+        spark.remove();
+    },1800);
 
-        document.getElementById("musicButton").textContent =
-            musicOn ? "🔊" : "♫";
+},650);
 
-        /*
-          สามารถเพิ่มไฟล์เพลงของคุณได้ภายหลัง
-          โดยใช้ Audio API หรือแท็ก audio
-        */
 
-    });
+/* =========================================================
+   SMOOTH MOUSE GLOW
+========================================================= */
+
+document.addEventListener("mousemove",(e)=>{
+
+    document.documentElement.style.setProperty(
+        "--mouse-x",
+        e.clientX+"px"
+    );
+
+    document.documentElement.style.setProperty(
+        "--mouse-y",
+        e.clientY+"px"
+    );
+
+});
+
 
 </script>
 
