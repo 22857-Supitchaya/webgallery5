@@ -1,2856 +1,4673 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Kim Dokja | The Story</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Itim&family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
-
-<style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:'Kanit',sans-serif;
-    background:#07111f;
-    color:white;
-    overflow-x:hidden;
-    cursor:none;
-}
-
-button,
-a{
-    font-family:inherit;
-}
-
-
-/* =========================================================
-   LOADING SCREEN
-========================================================= */
-
-#loader{
-    position:fixed;
-    inset:0;
-    z-index:99999;
-    background:
-        radial-gradient(circle at center,#2d416f 0%,#111a35 45%,#050914 100%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:opacity 1.4s ease,visibility 1.4s ease;
-}
-
-#loader.hide{
-    opacity:0;
-    visibility:hidden;
-}
-
-.loader-content{
-    text-align:center;
-    position:relative;
-}
-
-.loader-orbit{
-    width:180px;
-    height:180px;
-    border:1px solid rgba(255,255,255,.35);
-    border-radius:50%;
-    position:relative;
-    animation:spin 10s linear infinite;
-    margin:auto;
-}
-
-.loader-orbit::before{
-    content:"";
-    position:absolute;
-    inset:18px;
-    border:1px dashed rgba(255,220,255,.35);
-    border-radius:50%;
-}
-
-.loader-flower{
-    position:absolute;
-    width:25px;
-    height:25px;
-    left:50%;
-    top:50%;
-    margin:-12px;
-    opacity:0;
-    animation:bloomLoader 2.8s ease forwards;
-}
-
-.loader-flower span{
-    position:absolute;
-    width:13px;
-    height:22px;
-    background:linear-gradient(#ffd6ef,#b987d9);
-    border-radius:100% 0 100% 0;
-    left:6px;
-    top:0;
-    transform-origin:bottom center;
-}
-
-.loader-flower span:nth-child(1){transform:rotate(0deg)}
-.loader-flower span:nth-child(2){transform:rotate(60deg)}
-.loader-flower span:nth-child(3){transform:rotate(120deg)}
-.loader-flower span:nth-child(4){transform:rotate(180deg)}
-.loader-flower span:nth-child(5){transform:rotate(240deg)}
-.loader-flower span:nth-child(6){transform:rotate(300deg)}
-
-.loader-flower i{
-    position:absolute;
-    width:9px;
-    height:9px;
-    background:#ffe9a6;
-    border-radius:50%;
-    left:8px;
-    top:8px;
-}
-
-.loader-flower:nth-child(1){transform:rotate(0deg) translateY(-70px);animation-delay:.1s}
-.loader-flower:nth-child(2){transform:rotate(45deg) translateY(-70px);animation-delay:.25s}
-.loader-flower:nth-child(3){transform:rotate(90deg) translateY(-70px);animation-delay:.4s}
-.loader-flower:nth-child(4){transform:rotate(135deg) translateY(-70px);animation-delay:.55s}
-.loader-flower:nth-child(5){transform:rotate(180deg) translateY(-70px);animation-delay:.7s}
-.loader-flower:nth-child(6){transform:rotate(225deg) translateY(-70px);animation-delay:.85s}
-.loader-flower:nth-child(7){transform:rotate(270deg) translateY(-70px);animation-delay:1s}
-.loader-flower:nth-child(8){transform:rotate(315deg) translateY(-70px);animation-delay:1.15s}
-
-.loader-title{
-    margin-top:35px;
-    font-family:'Cormorant Garamond',serif;
-    font-size:35px;
-    letter-spacing:7px;
-}
-
-.loader-sub{
-    margin-top:8px;
-    opacity:.7;
-    letter-spacing:3px;
-    font-size:12px;
-}
-
-.loader-line{
-    width:220px;
-    height:2px;
-    background:rgba(255,255,255,.15);
-    margin:25px auto 0;
-    overflow:hidden;
-}
-
-.loader-line::after{
-    content:"";
-    display:block;
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#e7b8ff,#fff1b0,#b8e8ff);
-    animation:loading 3s ease forwards;
-}
-
-@keyframes loading{
-    to{width:100%}
-}
-
-@keyframes bloomLoader{
-    0%{
-        opacity:0;
-        scale:.2;
-    }
-    30%{
-        opacity:1;
-    }
-    100%{
-        opacity:1;
-        scale:1;
-    }
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
-
-
-/* =========================================================
-   CURSOR
-========================================================= */
-
-.cursor-flower{
-    position:fixed;
-    width:26px;
-    height:26px;
-    pointer-events:none;
-    z-index:99998;
-    transform:translate(-50%,-50%);
-}
-
-.cursor-flower span{
-    position:absolute;
-    width:12px;
-    height:19px;
-    background:linear-gradient(#ffd9ef,#b47ad3);
-    border-radius:100% 0 100% 0;
-    left:7px;
-    top:0;
-    transform-origin:bottom center;
-}
-
-.cursor-flower span:nth-child(1){transform:rotate(0deg)}
-.cursor-flower span:nth-child(2){transform:rotate(72deg)}
-.cursor-flower span:nth-child(3){transform:rotate(144deg)}
-.cursor-flower span:nth-child(4){transform:rotate(216deg)}
-.cursor-flower span:nth-child(5){transform:rotate(288deg)}
-
-.cursor-flower i{
-    position:absolute;
-    width:8px;
-    height:8px;
-    background:#ffeaa7;
-    border-radius:50%;
-    top:8px;
-    left:9px;
-}
-
-
-/* =========================================================
-   MAIN WORLD
-========================================================= */
-
-.world{
-    position:relative;
-    min-height:100vh;
-    overflow:hidden;
-    background:
-        linear-gradient(
-            to bottom,
-            #19275c 0%,
-            #455d91 38%,
-            #9fc9c8 72%,
-            #79b56e 100%
-        );
-    transition:background 2s ease;
-}
-
-.world.sunset{
-    background:
-        linear-gradient(
-            to bottom,
-            #292052 0%,
-            #7c466f 30%,
-            #e28b7a 57%,
-            #b9b275 75%,
-            #3e704d 100%
-        );
-}
-
-.world.night{
-    background:
-        linear-gradient(
-            to bottom,
-            #030616 0%,
-            #101c46 40%,
-            #233b58 72%,
-            #172d2b 100%
-        );
-}
-
-
-/* =========================================================
-   SKY
-========================================================= */
-
-.sky{
-    position:absolute;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-}
-
-.moon{
-    position:absolute;
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    background:#fff1b5;
-    box-shadow:
-        0 0 40px #fff3bf,
-        0 0 100px rgba(255,239,177,.5);
-    right:12%;
-    top:11%;
-    transition:2s;
-}
-
-.world.sunset .moon{
-    background:#ffd5a2;
-    box-shadow:0 0 80px rgba(255,180,130,.6);
-}
-
-.world.night .moon{
-    width:115px;
-    height:115px;
-    background:#edf1ff;
-    box-shadow:0 0 80px rgba(180,200,255,.7);
-}
-
-.star{
-    position:absolute;
-    width:3px;
-    height:3px;
-    border-radius:50%;
-    background:white;
-    box-shadow:0 0 8px white;
-    animation:twinkle 3s infinite alternate;
-}
-
-@keyframes twinkle{
-    from{opacity:.25;transform:scale(.7)}
-    to{opacity:1;transform:scale(1.5)}
-}
-
-
-/* =========================================================
-   PARALLAX LAYERS
-========================================================= */
-
-.parallax{
-    position:absolute;
-    pointer-events:none;
-    transition:transform .2s linear;
-}
-
-.cloud{
-    width:300px;
-    height:70px;
-    border-radius:100px;
-    background:rgba(255,255,255,.12);
-    filter:blur(5px);
-}
-
-.cloud::before,
-.cloud::after{
-    content:"";
-    position:absolute;
-    border-radius:50%;
-    background:inherit;
-}
-
-.cloud::before{
-    width:120px;
-    height:120px;
-    left:55px;
-    bottom:10px;
-}
-
-.cloud::after{
-    width:90px;
-    height:90px;
-    right:55px;
-    bottom:5px;
-}
-
-.cloud.one{
-    left:-80px;
-    top:25%;
-}
-
-.cloud.two{
-    right:-120px;
-    top:36%;
-    transform:scale(.7);
-}
-
-.mountain{
-    position:absolute;
-    bottom:26%;
-    width:0;
-    height:0;
-    border-left:230px solid transparent;
-    border-right:230px solid transparent;
-    border-bottom:270px solid rgba(31,54,84,.8);
-}
-
-.mountain.one{
-    left:4%;
-}
-
-.mountain.two{
-    left:30%;
-    transform:scale(1.3);
-}
-
-.mountain.three{
-    right:4%;
-    transform:scale(.9);
-}
-
-
-/* =========================================================
-   CASTLE
-========================================================= */
-
-.castle{
-    position:absolute;
-    left:50%;
-    bottom:22%;
-    width:560px;
-    height:300px;
-    transform:translateX(-50%);
-    filter:drop-shadow(0 20px 25px rgba(0,0,0,.25));
-    transition:transform .2s linear;
-}
-
-.castle-body{
-    position:absolute;
-    bottom:0;
-    left:90px;
-    right:90px;
-    height:190px;
-    background:
-        linear-gradient(
-            90deg,
-            #60789d,
-            #a8bdd1 30%,
-            #7891b2 65%,
-            #536b91
-        );
-    border-radius:5px 5px 0 0;
-    box-shadow:
-        inset 0 0 30px rgba(255,255,255,.18);
-}
-
-.tower{
-    position:absolute;
-    bottom:0;
-    width:110px;
-    height:235px;
-    background:
-        linear-gradient(
-            90deg,
-            #506a90,
-            #a9c1d6,
-            #526c91
-        );
-}
-
-.tower.left{left:15px}
-.tower.right{right:15px}
-
-.tower::before{
-    content:"";
-    position:absolute;
-    left:-18px;
-    top:-45px;
-    width:146px;
-    height:90px;
-    background:#394f78;
-    clip-path:polygon(50% 0,100% 100%,0 100%);
-}
-
-.tower::after{
-    content:"";
-    position:absolute;
-    width:27px;
-    height:55px;
-    background:#263d61;
-    border-radius:18px 18px 0 0;
-    bottom:55px;
-    left:42px;
-    box-shadow:0 -3px 8px rgba(100,180,255,.2);
-}
-
-.castle-door{
-    position:absolute;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:65px;
-    height:90px;
-    border-radius:40px 40px 0 0;
-    background:#273c60;
-}
-
-.castle-window{
-    position:absolute;
-    width:30px;
-    height:60px;
-    border-radius:20px 20px 0 0;
-    background:#263c62;
-    bottom:70px;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-    min-height:100vh;
-    position:relative;
-    z-index:10;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:100px 20px 200px;
-}
-
-.hero-content{
-    position:relative;
-    z-index:20;
-    max-width:1000px;
-}
-
-.welcome{
-    font-size:15px;
-    letter-spacing:8px;
-    margin-bottom:18px;
-    opacity:.9;
-    text-shadow:0 0 15px rgba(255,255,255,.5);
-}
-
-.hero-title{
-    position:relative;
-
-    /* สำคัญมาก:
-       แก้หาง J ไม่ให้ถูกตัด */
-    overflow:visible;
-
-    font-family:'Cormorant Garamond',serif;
-    font-size:clamp(80px,13vw,175px);
-    font-weight:600;
-    line-height:.82;
-    letter-spacing:-5px;
-
-    background:
-        linear-gradient(
-            110deg,
-            #d8a9ff,
-            #ffd9ef 35%,
-            #fff0b4 65%,
-            #d5b9ff
-        );
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-
-    filter:
-        drop-shadow(0 0 15px rgba(223,166,255,.45))
-        drop-shadow(0 15px 35px rgba(0,0,0,.25));
-
-    padding:
-        0 0.08em
-        0.18em
-        0.14em;
-
-    animation:titleFloat 5s ease-in-out infinite;
-}
-
-@keyframes titleFloat{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-8px)}
-}
-
-.title-spark{
-    position:absolute;
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    border:2px solid white;
-    box-shadow:
-        0 0 20px #fff,
-        0 0 40px #d9a9ff;
-    animation:sparkPulse 2s infinite;
-}
-
-.title-spark::before,
-.title-spark::after{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:50%;
-    background:white;
-    transform:translate(-50%,-50%);
-}
-
-.title-spark::before{
-    width:60px;
-    height:1px;
-}
-
-.title-spark::after{
-    width:1px;
-    height:60px;
-}
-
-.title-spark{
-    bottom:-15px;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-@keyframes sparkPulse{
-    0%,100%{scale:.8;opacity:.5}
-    50%{scale:1.15;opacity:1}
-}
-
-.hero-desc{
-    margin:28px auto 30px;
-    max-width:760px;
-    font-size:19px;
-    line-height:2;
-    text-shadow:0 3px 12px rgba(0,0,0,.7);
-}
-
-.story-button{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    padding:15px 35px;
-    border:1px solid rgba(255,255,255,.65);
-    border-radius:50px;
-    color:white;
-    text-decoration:none;
-    background:rgba(255,255,255,.1);
-    backdrop-filter:blur(12px);
-    box-shadow:
-        0 0 25px rgba(222,166,255,.2),
-        inset 0 0 20px rgba(255,255,255,.06);
-    transition:.4s;
-}
-
-.story-button:hover{
-    transform:translateY(-5px) scale(1.03);
-    background:rgba(255,255,255,.2);
-    box-shadow:
-        0 0 25px #dda6ff,
-        0 0 60px rgba(221,166,255,.35);
-}
-
-
-/* =========================================================
-   FLOWER FIELD
-========================================================= */
-
-.meadow{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:32%;
-    z-index:8;
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(50,104,63,.1),
-            #244b32 100%
-        );
-    overflow:hidden;
-}
-
-.grass{
-    position:absolute;
-    bottom:0;
-    width:4px;
-    height:60px;
-    background:linear-gradient(90deg,#315c39,#83ad68);
-    transform-origin:bottom;
-    border-radius:100%;
-    animation:sway 3s ease-in-out infinite;
-}
-
-@keyframes sway{
-    0%,100%{transform:rotate(-4deg)}
-    50%{transform:rotate(7deg)}
-}
-
-.meadow-flower{
-    position:absolute;
-    bottom:12%;
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    filter:drop-shadow(0 0 7px rgba(255,200,255,.7));
-    animation:flowerSway 4s ease-in-out infinite;
-}
-
-.meadow-flower::before{
-    content:"";
-    position:absolute;
-    inset:-8px;
-    background:
-        radial-gradient(circle at center top,#ffb8e2 0 30%,transparent 32%),
-        radial-gradient(circle at right center,#ffc9ed 0 30%,transparent 32%),
-        radial-gradient(circle at center bottom,#e7a7e9 0 30%,transparent 32%),
-        radial-gradient(circle at left center,#ffc9ed 0 30%,transparent 32%);
-    border-radius:50%;
-}
-
-.meadow-flower::after{
-    content:"";
-    position:absolute;
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:#ffe7a4;
-    left:6px;
-    top:6px;
-}
-
-@keyframes flowerSway{
-    0%,100%{transform:rotate(-3deg)}
-    50%{transform:rotate(5deg)}
-}
-
-
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-.petals{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:30;
-    overflow:hidden;
-}
-
-.petal{
-    position:absolute;
-    width:12px;
-    height:20px;
-    background:linear-gradient(135deg,#ffd8ec,#d69bdf);
-    border-radius:100% 0 100% 0;
-    opacity:.8;
-    animation:fall linear forwards;
-    filter:drop-shadow(0 0 5px rgba(255,170,230,.5));
-}
-
-@keyframes fall{
-    0%{
-        transform:translateY(-50px) rotate(0deg);
-    }
-    100%{
-        transform:
-            translateY(110vh)
-            translateX(var(--drift))
-            rotate(720deg);
-    }
-}
-
-.firefly{
-    position:fixed;
-    width:5px;
-    height:5px;
-    border-radius:50%;
-    background:#fff1a8;
-    box-shadow:
-        0 0 10px #fff4a6,
-        0 0 25px #ffe98a;
-    pointer-events:none;
-    z-index:15;
-    animation:firefly 5s ease-in-out infinite alternate;
-}
-
-@keyframes firefly{
-    from{
-        opacity:.1;
-        transform:translate(0,0);
-    }
-    to{
-        opacity:1;
-        transform:translate(40px,-50px);
-    }
-}
-
-
-/* =========================================================
-   BUTTERFLIES / BEES
-========================================================= */
-
-.creature{
-    position:fixed;
-    z-index:35;
-    pointer-events:none;
-    font-size:27px;
-    filter:drop-shadow(0 0 8px rgba(255,255,255,.5));
-}
-
-.butterfly{
-    animation:flyButterfly 18s linear infinite;
-}
-
-.bee{
-    animation:flyBee 14s linear infinite;
-}
-
-@keyframes flyButterfly{
-    0%{
-        left:-5%;
-        top:70%;
-        transform:rotate(10deg);
-    }
-    25%{
-        left:25%;
-        top:40%;
-    }
-    50%{
-        left:55%;
-        top:65%;
-    }
-    75%{
-        left:80%;
-        top:25%;
-    }
-    100%{
-        left:105%;
-        top:50%;
-        transform:rotate(-15deg);
-    }
-}
-
-@keyframes flyBee{
-    0%{
-        left:100%;
-        top:35%;
-    }
-    30%{
-        left:70%;
-        top:55%;
-    }
-    60%{
-        left:40%;
-        top:30%;
-    }
-    100%{
-        left:-10%;
-        top:60%;
-    }
-}
-
-
-/* =========================================================
-   GALLERY SECTION
-========================================================= */
-
-.gallery-section{
-    position:relative;
-    z-index:40;
-    min-height:100vh;
-    padding:110px 6vw;
-    background:
-        linear-gradient(
-            to bottom,
-            transparent,
-            rgba(5,11,27,.65) 10%,
-            #070c1c 35%,
-            #080d1b 100%
-        );
-}
-
-.section-title{
-    text-align:center;
-    font-family:'Cormorant Garamond',serif;
-    font-size:65px;
-    margin-bottom:12px;
-    background:linear-gradient(90deg,#e3b4ff,#fff2bc,#e5b8ff);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-}
-
-.section-sub{
-    text-align:center;
-    opacity:.7;
-    margin-bottom:70px;
-}
-
-.gallery{
-    max-width:1250px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:35px;
-}
-
-
-/* =========================================================
-   GLASS CARD
-========================================================= */
-
-.card{
-    position:relative;
-    min-height:510px;
-    border-radius:25px;
-    padding:10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.22),
-            rgba(255,255,255,.035)
-        );
-
-    border:1px solid rgba(255,255,255,.45);
-
-    backdrop-filter:blur(14px);
-
-    box-shadow:
-        0 30px 70px rgba(0,0,0,.4),
-        inset 0 0 30px rgba(255,255,255,.05);
-
-    transform-style:preserve-3d;
-    transition:
-        transform .15s ease,
-        box-shadow .4s ease;
-
-    overflow:hidden;
-}
-
-.card::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:25px;
-    pointer-events:none;
-
-    background:
-        linear-gradient(
-            115deg,
-            transparent 15%,
-            rgba(255,255,255,.75) 25%,
-            transparent 35%
-        );
-
-    transform:translateX(-120%);
-    transition:transform .8s ease;
-}
-
-.card:hover::before{
-    transform:translateX(120%);
-}
-
-
-/* วิ๊งเหมือนกระจก */
-
-.card::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:25px;
-    pointer-events:none;
-
-    background:
-        radial-gradient(
-            circle at 12% 18%,
-            rgba(255,255,255,.95) 0 1px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 85% 23%,
-            rgba(255,255,255,.9) 0 1px,
-            transparent 4px
-        ),
-        radial-gradient(
-            circle at 25% 87%,
-            rgba(255,230,255,.9) 0 1px,
-            transparent 4px
-        ),
-        radial-gradient(
-            circle at 91% 80%,
-            rgba(255,255,255,.9) 0 1px,
-            transparent 4px
-        );
-
-    opacity:.7;
-    animation:glassSparkle 2.7s infinite alternate;
-}
-
-@keyframes glassSparkle{
-    from{
-        opacity:.35;
-        filter:brightness(.8);
-    }
-    to{
-        opacity:1;
-        filter:brightness(1.8);
-    }
-}
-
-.card-image{
-    position:relative;
-    height:270px;
-    border-radius:18px;
-    overflow:hidden;
-}
-
-.card-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition:transform .7s ease;
-}
-
-.card:hover .card-image img{
-    transform:scale(1.09);
-}
-
-.image-shine{
-    position:absolute;
-    inset:0;
-    background:
-        linear-gradient(
-            110deg,
-            transparent 35%,
-            rgba(255,255,255,.45) 48%,
-            transparent 60%
-        );
-    transform:translateX(-130%);
-    transition:1s;
-}
-
-.card:hover .image-shine{
-    transform:translateX(130%);
-}
-
-.card-info{
-    padding:25px 20px;
-    position:relative;
-    z-index:2;
-}
-
-.card-info h3{
-    font-family:'Cormorant Garamond',serif;
-    font-size:31px;
-    color:#ffe4f5;
-    margin-bottom:8px;
-}
-
-.card-info p{
-    font-size:14px;
-    line-height:1.9;
-    color:rgba(255,255,255,.8);
-}
-
-.card-tag{
-    display:inline-block;
-    margin-top:15px;
-    padding:5px 12px;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.3);
-    font-size:11px;
-    opacity:.75;
-}
-
-
-/* =========================================================
-   STORY TIMELINE
-========================================================= */
-
-.timeline-section{
-    position:relative;
-    z-index:40;
-    padding:120px 6vw;
-    background:#080d1b;
-}
-
-.timeline{
-    max-width:1100px;
-    margin:auto;
-    position:relative;
-}
-
-.timeline::before{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:0;
-    bottom:0;
-    width:1px;
-    background:
-        linear-gradient(
-            transparent,
-            #d8adff,
-            #fff0bb,
-            #d8adff,
-            transparent
-        );
-}
-
-.timeline-item{
-    width:50%;
-    padding:25px 45px;
-    position:relative;
-}
-
-.timeline-item:nth-child(odd){
-    text-align:right;
-}
-
-.timeline-item:nth-child(even){
-    margin-left:50%;
-}
-
-.timeline-dot{
-    position:absolute;
-    width:15px;
-    height:15px;
-    border-radius:50%;
-    background:#fff0b6;
-    box-shadow:
-        0 0 15px #fff0b6,
-        0 0 35px #d9a5ff;
-    top:45px;
-}
-
-.timeline-item:nth-child(odd) .timeline-dot{
-    right:-7px;
-}
-
-.timeline-item:nth-child(even) .timeline-dot{
-    left:-7px;
-}
-
-.timeline-box{
-    padding:25px;
-    border:1px solid rgba(255,255,255,.2);
-    border-radius:20px;
-    background:rgba(255,255,255,.05);
-    backdrop-filter:blur(10px);
-    transition:.4s;
-}
-
-.timeline-box:hover{
-    transform:translateY(-5px);
-    background:rgba(255,255,255,.09);
-    box-shadow:0 15px 40px rgba(196,145,255,.15);
-}
-
-.chapter{
-    font-size:11px;
-    letter-spacing:3px;
-    opacity:.55;
-}
-
-.timeline-box h3{
-    font-family:'Cormorant Garamond',serif;
-    font-size:30px;
-    color:#ffe5b7;
-    margin:5px 0;
-}
-
-
-/* =========================================================
-   SECRET MESSAGE
-========================================================= */
-
-.secret{
-    text-align:center;
-    padding:100px 20px 130px;
-    background:#080d1b;
-}
-
-.secret-button{
-    background:none;
-    border:1px solid rgba(255,255,255,.25);
-    color:white;
-    padding:13px 25px;
-    border-radius:50px;
-    cursor:none;
-    transition:.4s;
-}
-
-.secret-button:hover{
-    border-color:#e3b1ff;
-    box-shadow:0 0 25px rgba(220,170,255,.3);
-}
-
-.secret-text{
-    max-width:650px;
-    margin:25px auto 0;
-    opacity:0;
-    max-height:0;
-    overflow:hidden;
-    transition:1s;
-    font-family:'Cormorant Garamond',serif;
-    font-size:30px;
-    color:#ffe8b5;
-}
-
-.secret-text.show{
-    opacity:1;
-    max-height:200px;
-}
-
-
-/* =========================================================
-   CONTROLS
-========================================================= */
-
-.controls{
-    position:fixed;
-    right:20px;
-    top:20px;
-    z-index:500;
-    display:flex;
-    gap:10px;
-}
-
-.control{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.4);
-    color:white;
-    background:rgba(30,40,80,.35);
-    backdrop-filter:blur(12px);
-    font-size:22px;
-    cursor:none;
-    transition:.3s;
-}
-
-.control:hover{
-    transform:scale(1.1) rotate(8deg);
-    background:rgba(255,255,255,.15);
-    box-shadow:0 0 25px rgba(220,180,255,.4);
-}
-
-
-/* =========================================================
-   CLICK MAGIC
-========================================================= */
-
-.magic-ring{
-    position:fixed;
-    width:20px;
-    height:20px;
-    border:2px solid #f4caff;
-    border-radius:50%;
-    pointer-events:none;
-    z-index:9990;
-    transform:translate(-50%,-50%);
-    animation:magicRing .8s ease-out forwards;
-}
-
-.magic-ring::before,
-.magic-ring::after{
-    content:"✦";
-    position:absolute;
-    color:#fff1bc;
-    font-size:17px;
-}
-
-.magic-ring::before{
-    left:-25px;
-    top:-20px;
-}
-
-.magic-ring::after{
-    right:-25px;
-    bottom:-20px;
-}
-
-@keyframes magicRing{
-    from{
-        width:10px;
-        height:10px;
-        opacity:1;
-    }
-    to{
-        width:230px;
-        height:230px;
-        opacity:0;
-    }
-}
-
-.magic-petal{
-    position:fixed;
-    width:10px;
-    height:17px;
-    background:#f5bde9;
-    border-radius:100% 0 100% 0;
-    pointer-events:none;
-    z-index:9991;
-    animation:explode .9s ease-out forwards;
-}
-
-@keyframes explode{
-    from{
-        transform:translate(-50%,-50%) scale(.3);
-        opacity:1;
-    }
-    to{
-        transform:
-            translate(
-                calc(-50% + var(--x)),
-                calc(-50% + var(--y))
-            )
-            rotate(540deg)
-            scale(1);
-        opacity:0;
-    }
-}
-
-
-/* =========================================================
-   LIGHTBOX
-========================================================= */
-
-.lightbox{
-    position:fixed;
-    inset:0;
-    background:rgba(2,4,12,.88);
-    backdrop-filter:blur(18px);
-    z-index:9000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:30px;
-    opacity:0;
-    visibility:hidden;
-    transition:.4s;
-}
-
-.lightbox.show{
-    opacity:1;
-    visibility:visible;
-}
-
-.lightbox img{
-    max-width:90vw;
-    max-height:85vh;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.55);
-    box-shadow:
-        0 0 30px rgba(220,170,255,.5),
-        0 0 100px rgba(220,170,255,.25);
-}
-
-.lightbox-close{
-    position:absolute;
-    top:25px;
-    right:30px;
-    font-size:40px;
-    cursor:none;
-    opacity:.8;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-    background:#050813;
-    padding:50px 20px;
-    text-align:center;
-    color:rgba(255,255,255,.5);
-    font-size:13px;
-}
-
-footer strong{
-    color:#f3d6ff;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:900px){
-
-    .gallery{
-        grid-template-columns:1fr;
-        max-width:550px;
-    }
-
-    .castle{
-        transform:translateX(-50%) scale(.7);
-        bottom:18%;
-    }
-
-    .hero{
-        padding-bottom:150px;
-    }
-
-    .hero-desc{
-        font-size:15px;
-    }
-
-    .timeline::before{
-        left:15px;
-    }
-
-    .timeline-item,
-    .timeline-item:nth-child(even){
-        width:100%;
-        margin-left:0;
-        text-align:left;
-        padding-left:50px;
-    }
-
-    .timeline-item:nth-child(odd){
-        text-align:left;
-    }
-
-    .timeline-item:nth-child(odd) .timeline-dot,
-    .timeline-item:nth-child(even) .timeline-dot{
-        left:8px;
-        right:auto;
-    }
-
-    .controls{
-        top:12px;
-        right:12px;
-    }
-
-    .control{
-        width:45px;
-        height:45px;
-        font-size:18px;
-    }
-}
-
-@media(max-width:600px){
-
-    body{
-        cursor:auto;
-    }
-
-    .cursor-flower{
-        display:none;
-    }
-
-    .welcome{
-        font-size:10px;
-        letter-spacing:5px;
-    }
-
-    .hero-title{
-        font-size:75px;
-        letter-spacing:-3px;
-        line-height:.86;
-    }
-
-    .hero-desc{
-        font-size:14px;
-        line-height:1.9;
-    }
-
-    .section-title{
-        font-size:50px;
-    }
-
-    .castle{
-        transform:translateX(-50%) scale(.48);
-        bottom:14%;
-    }
-
-    .moon{
-        width:90px;
-        height:90px;
-        right:10%;
-    }
-
-    .gallery-section{
-        padding-left:20px;
-        padding-right:20px;
-    }
-
-    .timeline-section{
-        padding-left:20px;
-        padding-right:20px;
-    }
-}
-
-</style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kim Dokja | Sweet Fantasy Story</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Pacifico&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================================================
+           ROOT / THEME VARIABLES
+        ========================================================= */
+
+        :root {
+
+            --bg-a: #fff1f8;
+            --bg-b: #f2e5ff;
+            --bg-c: #dff8ff;
+
+            --accent-1: #ff7fc0;
+            --accent-2: #b696ff;
+            --accent-3: #78e2ff;
+
+            --accent-soft: rgba(255, 145, 201, 0.25);
+            --glass: rgba(255, 255, 255, 0.42);
+            --glass-strong: rgba(255, 255, 255, 0.60);
+
+            --text-main: #57385b;
+            --text-soft: #7d637f;
+
+            --line: rgba(255, 255, 255, 0.85);
+
+            --shadow:
+                0 25px 70px rgba(125, 81, 135, 0.18);
+
+            --glow:
+                0 0 25px rgba(255, 179, 221, 0.42),
+                0 0 55px rgba(183, 157, 255, 0.22);
+
+            --hero-gradient:
+                linear-gradient(
+                    90deg,
+                    #ff6fb7,
+                    #a98df5,
+                    #6ed8ef,
+                    #ff6fb7
+                );
+
+        }
+
+        /* =========================================================
+           CHOCOLATE THEME
+        ========================================================= */
+
+        body.theme-chocolate {
+
+            --bg-a: #351d1c;
+            --bg-b: #5a3029;
+            --bg-c: #7b4b38;
+
+            --accent-1: #d66f55;
+            --accent-2: #c39267;
+            --accent-3: #f0b47f;
+
+            --accent-soft: rgba(214, 111, 85, 0.25);
+            --glass: rgba(255, 227, 206, 0.13);
+            --glass-strong: rgba(255, 231, 211, 0.20);
+
+            --text-main: #ffe6d2;
+            --text-soft: #e9c7b0;
+
+            --line: rgba(255, 222, 197, 0.34);
+
+            --shadow:
+                0 25px 70px rgba(20, 7, 5, 0.45);
+
+            --glow:
+                0 0 25px rgba(232, 153, 111, 0.25),
+                0 0 55px rgba(114, 67, 44, 0.40);
+
+            --hero-gradient:
+                linear-gradient(
+                    90deg,
+                    #f4a17a,
+                    #d17a58,
+                    #f1ca9a,
+                    #f4a17a
+                );
+
+        }
+
+        /* =========================================================
+           FRUIT THEME
+        ========================================================= */
+
+        body.theme-fruit {
+
+            --bg-a: #fff9d9;
+            --bg-b: #dfffe2;
+            --bg-c: #dff5ff;
+
+            --accent-1: #ff7070;
+            --accent-2: #ffb43e;
+            --accent-3: #62d59a;
+
+            --accent-soft: rgba(255, 141, 75, 0.20);
+            --glass: rgba(255, 255, 255, 0.48);
+            --glass-strong: rgba(255, 255, 255, 0.68);
+
+            --text-main: #355d4b;
+            --text-soft: #648276;
+
+            --line: rgba(255, 255, 255, 0.82);
+
+            --shadow:
+                0 25px 70px rgba(73, 121, 89, 0.18);
+
+            --glow:
+                0 0 25px rgba(255, 152, 91, 0.27),
+                0 0 55px rgba(91, 218, 143, 0.22);
+
+            --hero-gradient:
+                linear-gradient(
+                    90deg,
+                    #ff6e6e,
+                    #ffb347,
+                    #67c98e,
+                    #ff6e6e
+                );
+
+        }
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            font-family: "Kanit", sans-serif;
+
+            color: var(--text-main);
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 10% 15%,
+                    var(--accent-soft),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(150, 130, 255, 0.18),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(110, 220, 255, 0.17),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--bg-a),
+                    var(--bg-b),
+                    var(--bg-c)
+                );
+
+            background-size: 180% 180%;
+
+            animation:
+                backgroundDrift 16s ease-in-out infinite alternate;
+
+            transition:
+                background 0.8s ease,
+                color 0.6s ease;
+        }
+
+        body.theme-chocolate {
+
+            background:
+                radial-gradient(
+                    circle at 12% 15%,
+                    rgba(238, 155, 111, 0.22),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(145, 92, 67, 0.28),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--bg-a),
+                    var(--bg-b),
+                    var(--bg-c)
+                );
+
+            background-size: 180% 180%;
+
+        }
+
+        body.theme-fruit {
+
+            background:
+                radial-gradient(
+                    circle at 8% 15%,
+                    rgba(255, 121, 100, 0.22),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 12%,
+                    rgba(100, 220, 135, 0.23),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--bg-a),
+                    var(--bg-b),
+                    var(--bg-c)
+                );
+
+            background-size: 180% 180%;
+
+        }
+
+        @keyframes backgroundDrift {
+
+            0% {
+                background-position: 0% 30%;
+            }
+
+            50% {
+                background-position: 100% 65%;
+            }
+
+            100% {
+                background-position: 20% 100%;
+            }
+
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        ::selection {
+            background: var(--accent-1);
+            color: white;
+        }
+
+        /* =========================================================
+           MAGIC BACKGROUND
+        ========================================================= */
+
+        .magic-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            overflow: hidden;
+
+            z-index: -10;
+
+            pointer-events: none;
+        }
+
+        .magic-orb {
+
+            position: absolute;
+
+            width: 320px;
+            height: 320px;
+
+            border-radius: 50%;
+
+            filter: blur(80px);
+
+            opacity: 0.28;
+
+            animation:
+                orbMove 18s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+
+            top: -80px;
+            left: -80px;
+
+            background: var(--accent-1);
+        }
+
+        .orb-2 {
+
+            top: 38%;
+            right: -100px;
+
+            background: var(--accent-2);
+
+            animation-delay: 4s;
+        }
+
+        .orb-3 {
+
+            bottom: -100px;
+            left: 35%;
+
+            background: var(--accent-3);
+
+            animation-delay: 8s;
+        }
+
+        @keyframes orbMove {
+
+            0% {
+                transform:
+                    translate(0, 0)
+                    scale(0.9);
+            }
+
+            50% {
+                transform:
+                    translate(100px, -75px)
+                    scale(1.35);
+            }
+
+            100% {
+                transform:
+                    translate(-80px, 90px)
+                    scale(1.05);
+            }
+
+        }
+
+        /* =========================================================
+           SPARKLES
+        ========================================================= */
+
+        .sparkle {
+
+            position: fixed;
+
+            width: 4px;
+            height: 4px;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 0 7px #ffffff,
+                0 0 18px var(--accent-1);
+
+            pointer-events: none;
+
+            opacity: 0.7;
+
+            animation:
+                sparkleBlink
+                2s
+                ease-in-out
+                infinite alternate;
+        }
+
+        @keyframes sparkleBlink {
+
+            from {
+                opacity: 0.15;
+                transform: scale(0.4);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.8);
+            }
+
+        }
+
+        /* =========================================================
+           LOADING SCREEN
+        ========================================================= */
+
+        #loader {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 99999;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #ffffff55,
+                    transparent 25%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--accent-1),
+                    var(--accent-2)
+                );
+
+            transition:
+                opacity 0.8s ease,
+                visibility 0.8s ease;
+        }
+
+        #loader.finished {
+
+            opacity: 0;
+
+            visibility: hidden;
+
+        }
+
+        .loader-core {
+
+            position: relative;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 5;
+        }
+
+        .loader-cake {
+
+            font-size: 92px;
+
+            filter:
+                drop-shadow(
+                    0 12px 20px
+                    rgba(100, 40, 90, 0.30)
+                );
+
+            animation:
+                cakePulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes cakePulse {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0)
+                    rotate(-2deg)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translateY(-13px)
+                    rotate(2deg)
+                    scale(1.08);
+            }
+
+        }
+
+        .loader-title {
+
+            margin-top: 18px;
+
+            font-family: "Pacifico", cursive;
+
+            color: white;
+
+            font-size:
+                clamp(32px, 7vw, 58px);
+
+            text-shadow:
+                0 0 12px #ffffff99,
+                0 7px 20px #78496a55;
+        }
+
+        .loader-subtitle {
+
+            margin-top: 8px;
+
+            color: white;
+
+            font-size: 12px;
+
+            letter-spacing: 4px;
+
+            text-align: center;
+        }
+
+        .loader-bar {
+
+            width: 230px;
+
+            height: 8px;
+
+            margin-top: 25px;
+
+            border-radius: 50px;
+
+            background: #ffffff55;
+
+            overflow: hidden;
+        }
+
+        .loader-progress {
+
+            width: 0;
+
+            height: 100%;
+
+            background: white;
+
+            border-radius: inherit;
+
+            animation:
+                loadingBar
+                2.2s
+                forwards;
+        }
+
+        @keyframes loadingBar {
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+        /* =========================================================
+           LOADER CANDY BURST
+        ========================================================= */
+
+        .loader-burst {
+
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            overflow: hidden;
+        }
+
+        .burst-item {
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            opacity: 0;
+
+            font-size:
+                calc(22px + var(--size));
+
+            animation:
+                burstOut
+                2.5s
+                cubic-bezier(.2,.7,.15,1)
+                forwards;
+
+            animation-delay:
+                var(--delay);
+        }
+
+        @keyframes burstOut {
+
+            0% {
+
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0.2)
+                    rotate(0deg);
+            }
+
+            12% {
+
+                opacity: 1;
+            }
+
+            100% {
+
+                opacity: 1;
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y)
+                        )
+                    )
+                    scale(1)
+                    rotate(var(--rotate));
+            }
+
+        }
+
+        /* =========================================================
+           DRIZZLE CURTAIN
+        ========================================================= */
+
+        #drizzleCurtain {
+
+            position: fixed;
+
+            inset: -15% 0 0 0;
+
+            z-index: 99998;
+
+            pointer-events: none;
+
+            transform: translateY(-115%);
+
+            transition: none;
+
+            opacity: 0;
+        }
+
+        #drizzleCurtain.active {
+
+            opacity: 1;
+
+            animation:
+                drizzleDown
+                1.4s
+                cubic-bezier(.75,.02,.2,1)
+                forwards;
+        }
+
+        #drizzleCurtain.leave {
+
+            animation:
+                drizzleLeave
+                1.5s
+                cubic-bezier(.65,.01,.2,1)
+                forwards;
+        }
+
+        .drizzle-layer {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0.35),
+                    rgba(255,255,255,0.08)
+                );
+
+            backdrop-filter: blur(12px);
+        }
+
+        .drizzle-wave {
+
+            position: absolute;
+
+            top: 0;
+
+            width: 100%;
+            height: 34%;
+
+            border-radius:
+                0 0 50% 50% / 0 0 35% 35%;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffffdd,
+                    #ffffff88,
+                    transparent
+                );
+
+            box-shadow:
+                0 10px 40px #ffffff66;
+        }
+
+        .drip {
+
+            position: absolute;
+
+            top: 0;
+
+            width: var(--width);
+
+            height: var(--height);
+
+            left: var(--left);
+
+            border-radius:
+                0 0 40px 40px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffffee,
+                    #ffffff88
+                );
+
+            box-shadow:
+                0 5px 20px #ffffff44;
+        }
+
+        @keyframes drizzleDown {
+
+            0% {
+                transform: translateY(-115%);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+
+        @keyframes drizzleLeave {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-120%);
+            }
+
+        }
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+        .topbar {
+
+            position: fixed;
+
+            top: 18px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: min(94%, 1180px);
+
+            z-index: 5000;
+
+            padding: 13px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 50px;
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(22px);
+
+            box-shadow:
+                var(--shadow),
+                inset 0 1px 0 #ffffffbb;
+        }
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-family: "Pacifico", cursive;
+
+            font-size: 22px;
+
+            color: var(--accent-1);
+
+            text-shadow:
+                0 0 16px var(--accent-soft);
+
+            white-space: nowrap;
+        }
+
+        .nav-links {
+
+            display: flex;
+
+            list-style: none;
+
+            gap: 22px;
+        }
+
+        .nav-links a {
+
+            position: relative;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            color: var(--text-main);
+
+            transition: 0.3s;
+        }
+
+        .nav-links a::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            bottom: -6px;
+
+            width: 0;
+            height: 2px;
+
+            transform:
+                translateX(-50%);
+
+            border-radius: 50px;
+
+            background:
+                var(--accent-1);
+
+            transition:
+                width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+
+            color:
+                var(--accent-1);
+
+        }
+
+        .nav-links a:hover::after {
+
+            width: 100%;
+
+        }
+
+        /* =========================================================
+           THEME SWITCHER
+        ========================================================= */
+
+        .theme-switcher {
+
+            position: fixed;
+
+            right: 20px;
+            top: 95px;
+
+            z-index: 5001;
+
+            padding: 10px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 24px;
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                var(--shadow);
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+        .theme-button {
+
+            position: relative;
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            background:
+                var(--glass-strong);
+
+            box-shadow:
+                inset 0 1px 0 #ffffff99;
+
+            font-size: 19px;
+
+            transition:
+                0.3s ease;
+
+        }
+
+        .theme-button:hover {
+
+            transform:
+                translateX(-5px)
+                scale(1.08);
+
+        }
+
+        .theme-button.active {
+
+            box-shadow:
+                0 0 0 2px var(--accent-1),
+                0 0 22px var(--accent-soft);
+        }
+
+        .theme-tooltip {
+
+            position: absolute;
+
+            right: 52px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%)
+                translateX(5px);
+
+            padding:
+                6px 10px;
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(30,20,40,0.78);
+
+            color:
+                white;
+
+            font-size: 11px;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            white-space: nowrap;
+
+            transition:
+                0.25s;
+        }
+
+        .theme-button:hover
+        .theme-tooltip {
+
+            opacity: 1;
+
+            transform:
+                translateY(-50%)
+                translateX(0);
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+
+            position: relative;
+
+            min-height: 100vh;
+
+            padding:
+                150px 7% 170px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+        }
+
+        .hero-content {
+
+            max-width: 960px;
+
+            transition:
+                transform 0.18s
+                ease-out;
+        }
+
+        .eyebrow {
+
+            letter-spacing:
+                5px;
+
+            font-size:
+                13px;
+
+            color:
+                var(--accent-1);
+
+            text-shadow:
+                0 0 12px var(--accent-soft);
+        }
+
+        .hero-title {
+
+            position: relative;
+
+            margin:
+                18px 0 8px;
+
+            font-family:
+                "Pacifico",
+                cursive;
+
+            font-size:
+                clamp(50px, 10vw, 110px);
+
+            line-height: 1.2;
+
+            background:
+                var(--hero-gradient);
+
+            background-size:
+                300% 300%;
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color:
+                transparent;
+
+            animation:
+                titleGradient
+                8s
+                linear
+                infinite;
+
+            filter:
+                drop-shadow(
+                    0 10px 18px
+                    rgba(150, 90, 150, 0.14)
+                );
+        }
+
+        .hero-title::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset:
+                -10px -20px;
+
+            border-radius:
+                50px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.45),
+                    transparent
+                );
+
+            filter:
+                blur(16px);
+
+            opacity:
+                0.65;
+
+            animation:
+                titleShine
+                4s
+                ease-in-out
+                infinite;
+
+            pointer-events:
+                none;
+        }
+
+        @keyframes titleGradient {
+
+            from {
+                background-position:
+                    0% 50%;
+            }
+
+            to {
+                background-position:
+                    300% 50%;
+            }
+
+        }
+
+        @keyframes titleShine {
+
+            0% {
+                transform:
+                    translateX(-70%);
+            }
+
+            45%,
+            100% {
+                transform:
+                    translateX(70%);
+            }
+
+        }
+
+        .hero-subtitle {
+
+            display:
+                inline-block;
+
+            padding:
+                9px 18px;
+
+            margin:
+                6px 0 20px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                50px;
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(12px);
+
+            box-shadow:
+                inset 0 1px 0 #ffffffaa,
+                0 10px 30px var(--accent-soft);
+
+            font-size:
+                clamp(21px, 4vw, 40px);
+
+            color:
+                var(--text-main);
+        }
+
+        .hero-description {
+
+            max-width:
+                760px;
+
+            margin:
+                20px auto;
+
+            line-height:
+                2;
+
+            color:
+                var(--text-soft);
+
+            font-size:
+                16px;
+        }
+
+        .hero-buttons {
+
+            margin-top:
+                32px;
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                13px;
+        }
+
+        .hero-btn {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                8px;
+
+            padding:
+                14px 25px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                50px;
+
+            text-decoration:
+                none;
+
+            transition:
+                0.35s;
+
+            backdrop-filter:
+                blur(14px);
+        }
+
+        .hero-btn.primary {
+
+            color:
+                white;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    var(--accent-1),
+                    var(--accent-2)
+                );
+
+            box-shadow:
+                0 12px 30px var(--accent-soft);
+        }
+
+        .hero-btn.secondary {
+
+            color:
+                var(--text-main);
+
+            background:
+                var(--glass);
+        }
+
+        .hero-btn:hover {
+
+            transform:
+                translateY(-7px)
+                scale(1.03);
+
+            box-shadow:
+                0 18px 38px var(--accent-soft);
+        }
+
+        /* =========================================================
+           SECTION
+        ========================================================= */
+
+        section {
+
+            position:
+                relative;
+
+            padding:
+                110px 7%;
+        }
+
+        .section-heading {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                58px;
+        }
+
+        .section-kicker {
+
+            letter-spacing:
+                4px;
+
+            font-size:
+                12px;
+
+            color:
+                var(--accent-1);
+        }
+
+        .section-title {
+
+            margin-top:
+                10px;
+
+            font-family:
+                "Pacifico",
+                cursive;
+
+            font-size:
+                clamp(32px, 6vw, 60px);
+
+            color:
+                var(--text-main);
+
+            text-shadow:
+                0 0 20px var(--accent-soft);
+        }
+
+        .section-description {
+
+            margin-top:
+                12px;
+
+            color:
+                var(--text-soft);
+        }
+
+        /* =========================================================
+           GLASS SECTION
+        ========================================================= */
+
+        .glass-panel {
+
+            border:
+                1px solid var(--line);
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                var(--shadow),
+                inset 0 1px 0 #ffffff88;
+        }
+
+        /* =========================================================
+           GALLERY
+        ========================================================= */
+
+        .gallery {
+
+            max-width:
+                1250px;
+
+            margin:
+                0 auto;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                32px;
+
+            perspective:
+                1500px;
+        }
+
+        .story-card {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                30px;
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                var(--shadow),
+                inset 0 1px 0 #ffffff99;
+
+            transform-style:
+                preserve-3d;
+
+            transition:
+                transform 0.12s
+                ease-out,
+                box-shadow 0.35s
+                ease;
+
+            will-change:
+                transform;
+        }
+
+        .story-card::before {
+
+            content: "";
+
+            position:
+                absolute;
+
+            inset:
+                -120%;
+
+            background:
+                linear-gradient(
+                    115deg,
+                    transparent 38%,
+                    #ffffff66 50%,
+                    transparent 62%
+                );
+
+            transform:
+                rotate(18deg);
+
+            transition:
+                0.7s;
+
+            z-index:
+                4;
+
+            pointer-events:
+                none;
+        }
+
+        .story-card:hover::before {
+
+            inset:
+                120%;
+
+        }
+
+        .story-card:hover {
+
+            box-shadow:
+                0 30px 70px var(--accent-soft),
+                0 0 30px var(--accent-soft);
+
+        }
+
+        .image-frame {
+
+            position:
+                relative;
+
+            height:
+                290px;
+
+            overflow:
+                hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-soft),
+                    rgba(255,255,255,0.35)
+                );
+
+        }
+
+        .image-frame::after {
+
+            content: "";
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            border:
+                1px solid #ffffff44;
+
+            box-shadow:
+                inset 0 0 30px #ffffff22;
+
+            pointer-events:
+                none;
+        }
+
+        .story-image {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            object-fit:
+                cover;
+
+            display:
+                block;
+
+            transform:
+                scale(1);
+
+            transition:
+                transform 0.55s
+                cubic-bezier(.2,.7,.2,1);
+
+            transform-origin:
+                center center;
+        }
+
+        .story-card:hover
+        .story-image {
+
+            transform:
+                scale(1.08);
+
+        }
+
+        .card-content {
+
+            padding:
+                27px;
+
+        }
+
+        .card-tag {
+
+            display:
+                inline-flex;
+
+            padding:
+                5px 12px;
+
+            border-radius:
+                50px;
+
+            background:
+                var(--glass-strong);
+
+            color:
+                var(--accent-1);
+
+            border:
+                1px solid var(--line);
+
+            font-size:
+                10px;
+
+            letter-spacing:
+                1.2px;
+        }
+
+        .card-title {
+
+            margin-top:
+                14px;
+
+            font-size:
+                26px;
+
+            color:
+                var(--text-main);
+
+            text-shadow:
+                0 0 15px var(--accent-soft);
+        }
+
+        .card-text {
+
+            margin-top:
+                9px;
+
+            line-height:
+                1.9;
+
+            font-size:
+                14px;
+
+            color:
+                var(--text-soft);
+        }
+
+        .card-meta {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            margin-top:
+                20px;
+
+            color:
+                var(--accent-1);
+
+            font-size:
+                12px;
+        }
+
+        /* =========================================================
+           TIMELINE
+        ========================================================= */
+
+        .timeline {
+
+            max-width:
+                950px;
+
+            margin:
+                0 auto;
+
+            position:
+                relative;
+        }
+
+        .timeline::before {
+
+            content: "";
+
+            position:
+                absolute;
+
+            left:
+                28px;
+
+            top:
+                0;
+
+            bottom:
+                0;
+
+            width:
+                4px;
+
+            border-radius:
+                20px;
+
+            background:
+                linear-gradient(
+                    var(--accent-1),
+                    var(--accent-2),
+                    var(--accent-3)
+                );
+
+            box-shadow:
+                0 0 20px var(--accent-soft);
+        }
+
+        .timeline-item {
+
+            position:
+                relative;
+
+            padding-left:
+                88px;
+
+            margin-bottom:
+                42px;
+        }
+
+        .timeline-icon {
+
+            position:
+                absolute;
+
+            left:
+                0;
+
+            width:
+                58px;
+
+            height:
+                58px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border:
+                3px solid var(--line);
+
+            border-radius:
+                50%;
+
+            background:
+                var(--glass-strong);
+
+            backdrop-filter:
+                blur(15px);
+
+            box-shadow:
+                var(--glow);
+            
+            font-size:
+                24px;
+        }
+
+        .timeline-box {
+
+            padding:
+                28px;
+
+            border-radius:
+                27px;
+
+            border:
+                1px solid var(--line);
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                var(--shadow);
+
+            transition:
+                0.35s;
+        }
+
+        .timeline-box:hover {
+
+            transform:
+                translateX(12px);
+
+            box-shadow:
+                0 25px 55px var(--accent-soft);
+        }
+
+        .timeline-title {
+
+            font-size:
+                22px;
+
+            color:
+                var(--text-main);
+        }
+
+        .timeline-text {
+
+            margin-top:
+                10px;
+
+            line-height:
+                1.9;
+
+            color:
+                var(--text-soft);
+        }
+
+        /* =========================================================
+           QUOTE
+        ========================================================= */
+
+        .quote-section {
+
+            padding-top:
+                50px;
+
+        }
+
+        .quote-box {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            max-width:
+                1050px;
+
+            margin:
+                0 auto;
+
+            padding:
+                70px 30px;
+
+            text-align:
+                center;
+
+            border:
+                2px solid var(--line);
+
+            border-radius:
+                42px;
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(25px);
+
+            box-shadow:
+                var(--shadow),
+                var(--glow);
+        }
+
+        .quote-box::before {
+
+            content:
+                "✦";
+
+            position:
+                absolute;
+
+            top:
+                20px;
+
+            left:
+                28px;
+
+            color:
+                white;
+
+            font-size:
+                40px;
+
+            animation:
+                sparkleBlink
+                1.5s
+                infinite
+                alternate;
+        }
+
+        .quote-box::after {
+
+            content:
+                "✧";
+
+            position:
+                absolute;
+
+            bottom:
+                20px;
+
+            right:
+                30px;
+
+            color:
+                white;
+
+            font-size:
+                45px;
+
+            animation:
+                sparkleBlink
+                2s
+                infinite
+                alternate;
+        }
+
+        .quote-emoji {
+
+            font-size:
+                54px;
+
+        }
+
+        .quote-title {
+
+            margin:
+                18px auto;
+
+            max-width:
+                780px;
+
+            font-family:
+                "Pacifico",
+                cursive;
+
+            font-size:
+                clamp(27px, 5vw, 46px);
+
+            color:
+                var(--accent-1);
+
+            text-shadow:
+                0 0 22px var(--accent-soft);
+        }
+
+        .quote-text {
+
+            max-width:
+                700px;
+
+            margin:
+                0 auto;
+
+            color:
+                var(--text-soft);
+
+            line-height:
+                2;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+
+            position:
+                relative;
+
+            padding:
+                85px 20px 180px;
+
+            text-align:
+                center;
+
+            border-top:
+                1px solid var(--line);
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(18px);
+        }
+
+        .footer-title {
+
+            font-family:
+                "Pacifico",
+                cursive;
+
+            font-size:
+                34px;
+
+            color:
+                var(--accent-1);
+
+            text-shadow:
+                0 0 18px var(--accent-soft);
+        }
+
+        .footer-text {
+
+            margin-top:
+                10px;
+
+            color:
+                var(--text-soft);
+        }
+
+        .footer-line {
+
+            margin-top:
+                25px;
+
+            color:
+                var(--accent-1);
+
+            letter-spacing:
+                2px;
+        }
+
+        /* =========================================================
+           BOTTOM GIANT DESSERT PILE
+        ========================================================= */
+
+        .bottom-dessert-pile {
+
+            position:
+                fixed;
+
+            left:
+                0;
+
+            right:
+                0;
+
+            bottom:
+                -18px;
+
+            z-index:
+                1200;
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            align-items:
+                flex-end;
+
+            gap:
+                3px;
+
+            pointer-events:
+                none;
+
+            filter:
+                drop-shadow(
+                    0 -8px 20px
+                    var(--accent-soft)
+                );
+        }
+
+        .pile-item {
+
+            font-size:
+                clamp(
+                    35px,
+                    7vw,
+                    74px
+                );
+
+            display:
+                inline-block;
+
+            animation:
+                pileBounce
+                3s
+                ease-in-out
+                infinite
+                alternate;
+        }
+
+        .pile-item:nth-child(2) {
+            transform: translateY(-10px) rotate(-7deg);
+            animation-delay: .2s;
+        }
+
+        .pile-item:nth-child(3) {
+            transform: translateY(-18px) rotate(4deg);
+            animation-delay: .4s;
+        }
+
+        .pile-item:nth-child(4) {
+            transform: translateY(-7px) rotate(8deg);
+            animation-delay: .6s;
+        }
+
+        .pile-item:nth-child(5) {
+            transform: translateY(-16px) rotate(-5deg);
+            animation-delay: .8s;
+        }
+
+        .pile-item:nth-child(6) {
+            transform: translateY(-3px) rotate(5deg);
+            animation-delay: 1s;
+        }
+
+        .pile-item:nth-child(7) {
+            transform: translateY(-12px) rotate(-8deg);
+            animation-delay: 1.2s;
+        }
+
+        @keyframes pileBounce {
+
+            from {
+                translate: 0 0;
+            }
+
+            to {
+                translate: 0 -7px;
+            }
+
+        }
+
+        /* =========================================================
+           FLOATING SWEETS
+        ========================================================= */
+
+        .floating-sweet {
+
+            position:
+                fixed;
+
+            z-index:
+                -1;
+
+            pointer-events:
+                none;
+
+            opacity:
+                0.78;
+
+            animation:
+                floatSweet
+                linear
+                forwards;
+
+            filter:
+                drop-shadow(
+                    0 0 8px
+                    rgba(255,255,255,0.35)
+                );
+        }
+
+        @keyframes floatSweet {
+
+            0% {
+
+                transform:
+                    translateY(110vh)
+                    translateX(0)
+                    rotate(0deg);
+
+                opacity:
+                    0;
+            }
+
+            10% {
+
+                opacity:
+                    0.78;
+            }
+
+            50% {
+
+                transform:
+                    translateY(46vh)
+                    translateX(var(--sway))
+                    rotate(180deg);
+            }
+
+            90% {
+
+                opacity:
+                    0.78;
+            }
+
+            100% {
+
+                transform:
+                    translateY(-15vh)
+                    translateX(calc(var(--sway) * -1))
+                    rotate(360deg);
+
+                opacity:
+                    0;
+            }
+
+        }
+
+        /* =========================================================
+           BALLOONS
+        ========================================================= */
+
+        .balloon-layer {
+
+            position:
+                fixed;
+
+            inset:
+                0;
+
+            z-index:
+                -1;
+
+            pointer-events:
+                none;
+
+            overflow:
+                hidden;
+        }
+
+        .balloon {
+
+            position:
+                absolute;
+
+            bottom:
+                -130px;
+
+            font-size:
+                55px;
+
+            animation:
+                balloonRise
+                var(--duration)
+                linear
+                forwards;
+        }
+
+        @keyframes balloonRise {
+
+            0% {
+
+                transform:
+                    translateY(0)
+                    translateX(0)
+                    rotate(-8deg);
+
+                opacity:
+                    0;
+            }
+
+            10% {
+
+                opacity:
+                    0.75;
+            }
+
+            50% {
+
+                transform:
+                    translateY(-50vh)
+                    translateX(35px)
+                    rotate(8deg);
+            }
+
+            100% {
+
+                transform:
+                    translateY(-125vh)
+                    translateX(-30px)
+                    rotate(-7deg);
+
+                opacity:
+                    0;
+            }
+
+        }
+
+        /* =========================================================
+           CLICK RAIN
+        ========================================================= */
+
+        .click-sweet {
+
+            position:
+                fixed;
+
+            z-index:
+                9990;
+
+            pointer-events:
+                none;
+
+            font-size:
+                23px;
+
+            animation:
+                clickRain
+                1.7s
+                cubic-bezier(.2,.7,.2,1)
+                forwards;
+        }
+
+        @keyframes clickRain {
+
+            0% {
+
+                opacity:
+                    1;
+
+                transform:
+                    translate(
+                        var(--x),
+                        -20px
+                    )
+                    rotate(0deg)
+                    scale(.65);
+            }
+
+            35% {
+
+                opacity:
+                    1;
+            }
+
+            100% {
+
+                opacity:
+                    0;
+
+                transform:
+                    translate(
+                        calc(var(--x) + var(--drift)),
+                        260px
+                    )
+                    rotate(var(--rotate))
+                    scale(1.15);
+            }
+
+        }
+
+        /* =========================================================
+           CURSOR GLOW
+        ========================================================= */
+
+        .cursor-glow {
+
+            position:
+                fixed;
+
+            left:
+                0;
+
+            top:
+                0;
+
+            width:
+                160px;
+
+            height:
+                160px;
+
+            border-radius:
+                50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    var(--accent-soft),
+                    transparent 70%
+                );
+
+            transform:
+                translate(-50%, -50%);
+
+            pointer-events:
+                none;
+
+            z-index:
+                9998;
+
+            mix-blend-mode:
+                screen;
+
+            filter:
+                blur(5px);
+        }
+
+        /* =========================================================
+           CARD GLOW LAYER
+        ========================================================= */
+
+        .card-light {
+
+            position:
+                absolute;
+
+            width:
+                160px;
+
+            height:
+                160px;
+
+            border-radius:
+                50%;
+
+            pointer-events:
+                none;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,255,255,.32),
+                    transparent 70%
+                );
+
+            transform:
+                translate(-50%, -50%);
+
+            opacity:
+                0;
+
+            transition:
+                opacity 0.25s;
+        }
+
+        .story-card:hover
+        .card-light {
+
+            opacity:
+                1;
+        }
+
+        /* =========================================================
+           REVEAL
+        ========================================================= */
+
+        .reveal {
+
+            opacity:
+                0;
+
+            transform:
+                translateY(70px)
+                scale(.97);
+
+            transition:
+                opacity 0.9s ease,
+                transform 1s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .reveal.show {
+
+            opacity:
+                1;
+
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+        /* =========================================================
+           TOP BUTTON
+        ========================================================= */
+
+        #topButton {
+
+            position:
+                fixed;
+
+            right:
+                22px;
+
+            bottom:
+                95px;
+
+            z-index:
+                5000;
+
+            width:
+                50px;
+
+            height:
+                50px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                50%;
+
+            background:
+                var(--glass);
+
+            backdrop-filter:
+                blur(18px);
+
+            color:
+                var(--accent-1);
+
+            cursor:
+                pointer;
+
+            font-size:
+                22px;
+
+            opacity:
+                0;
+
+            visibility:
+                hidden;
+
+            transform:
+                translateY(20px);
+
+            transition:
+                .3s;
+        }
+
+        #topButton.show {
+
+            opacity:
+                1;
+
+            visibility:
+                visible;
+
+            transform:
+                translateY(0);
+        }
+
+        #topButton:hover {
+
+            transform:
+                translateY(-7px);
+
+            box-shadow:
+                0 10px 30px var(--accent-soft);
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 920px) {
+
+            .gallery {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .nav-links {
+
+                gap:
+                    12px;
+            }
+
+            .nav-links a {
+
+                font-size:
+                    12px;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+
+                padding:
+                    11px 16px;
+            }
+
+            .logo {
+
+                font-size:
+                    18px;
+            }
+
+            .nav-links {
+
+                display:
+                    none;
+            }
+
+            .theme-switcher {
+
+                right:
+                    12px;
+
+                top:
+                    82px;
+            }
+
+            .hero {
+
+                padding:
+                    140px 5% 150px;
+            }
+
+            .hero-description {
+
+                font-size:
+                    14px;
+            }
+
+            section {
+
+                padding:
+                    80px 5%;
+            }
+
+            .gallery {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .timeline-item {
+
+                padding-left:
+                    72px;
+            }
+
+            .timeline::before {
+
+                left:
+                    24px;
+            }
+
+            .timeline-icon {
+
+                width:
+                    50px;
+
+                height:
+                    50px;
+            }
+
+            .bottom-dessert-pile {
+
+                bottom:
+                    -10px;
+            }
+
+            .pile-item {
+
+                font-size:
+                    38px;
+            }
+
+            .quote-box {
+
+                padding:
+                    60px 20px;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    0.01ms !important;
+
+                transition-duration:
+                    0.01ms !important;
+
+                scroll-behavior:
+                    auto !important;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
 <body>
 
-<!-- ======================================================
-     LOADING
-====================================================== -->
+    <!-- =========================================================
+         MAGIC BACKGROUND
+    ========================================================= -->
 
-<div id="loader">
+    <div class="magic-background">
 
-    <div class="loader-content">
+        <div class="magic-orb orb-1"></div>
+        <div class="magic-orb orb-2"></div>
+        <div class="magic-orb orb-3"></div>
 
-        <div class="loader-orbit">
+    </div>
 
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
+
+    <!-- =========================================================
+         LOADING SCREEN
+    ========================================================= -->
+
+    <div id="loader">
+
+        <div class="loader-core">
+
+            <div class="loader-cake">
+                🍰
             </div>
 
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
+            <div class="loader-title">
+                Sweet Fantasy
             </div>
 
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
+            <div class="loader-subtitle">
+                OPENING THE STORY...
             </div>
 
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
-            </div>
-
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
-            </div>
-
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
-            </div>
-
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
-            </div>
-
-            <div class="loader-flower">
-                <span></span><span></span><span></span>
-                <span></span><span></span><span></span>
-                <i></i>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
             </div>
 
         </div>
 
-        <div class="loader-title">
-            KIM DOKJA
+        <div class="loader-burst" id="loaderBurst"></div>
+
+    </div>
+
+
+    <!-- =========================================================
+         DRIZZLE CURTAIN
+    ========================================================= -->
+
+    <div id="drizzleCurtain">
+
+        <div class="drizzle-layer"></div>
+
+        <div class="drizzle-wave"></div>
+
+    </div>
+
+
+    <!-- =========================================================
+         CURSOR GLOW
+    ========================================================= -->
+
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+
+    <!-- =========================================================
+         BALLOON LAYER
+    ========================================================= -->
+
+    <div class="balloon-layer" id="balloonLayer"></div>
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================= -->
+
+    <nav class="topbar">
+
+        <div class="logo" id="logoText">
+            🍰 Sweet ORV
         </div>
 
-        <div class="loader-sub">
-            OPENING THE STORY...
-        </div>
+        <ul class="nav-links">
 
-        <div class="loader-line"></div>
+            <li>
+                <a href="#home">
+                    หน้าแรก
+                </a>
+            </li>
 
-    </div>
+            <li>
+                <a href="#gallery">
+                    แกลเลอรี
+                </a>
+            </li>
 
-</div>
+            <li>
+                <a href="#story">
+                    Story
+                </a>
+            </li>
 
+            <li>
+                <a href="#quote">
+                    The Story
+                </a>
+            </li>
 
-<!-- ======================================================
-     CURSOR
-====================================================== -->
+        </ul>
 
-<div class="cursor-flower" id="cursorFlower">
-
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-
-    <i></i>
-
-</div>
-
-
-<!-- ======================================================
-     CONTROLS
-====================================================== -->
-
-<div class="controls">
-
-    <button
-        class="control"
-        id="worldBtn"
-        title="เปลี่ยนบรรยากาศ">
-        🌸
-    </button>
-
-    <button
-        class="control"
-        id="musicBtn"
-        title="เปิด / ปิดเสียง">
-        ♪
-    </button>
-
-</div>
+    </nav>
 
 
-<!-- ======================================================
-     WORLD
-====================================================== -->
+    <!-- =========================================================
+         THEME SWITCHER
+    ========================================================= -->
 
-<main class="world" id="world">
+    <div class="theme-switcher">
 
-    <div class="sky" id="sky">
+        <button
+            class="theme-button active"
+            data-theme="normal"
+            aria-label="ธีมปกติ"
+        >
 
-        <div class="moon"></div>
+            🍭
 
-        <div class="cloud parallax" data-speed="0.15"></div>
+            <span class="theme-tooltip">
+                Sweet Candy
+            </span>
 
-        <div class="cloud two parallax" data-speed="0.08"></div>
-
-    </div>
-
-
-    <!-- PARALLAX MOUNTAINS -->
-
-    <div
-        class="mountain one parallax"
-        data-speed="0.05">
-    </div>
-
-    <div
-        class="mountain two parallax"
-        data-speed="0.08">
-    </div>
-
-    <div
-        class="mountain three parallax"
-        data-speed="0.12">
-    </div>
+        </button>
 
 
-    <!-- CASTLE -->
+        <button
+            class="theme-button"
+            data-theme="chocolate"
+            aria-label="ธีมช็อกโกแลต"
+        >
 
-    <div
-        class="castle parallax"
-        data-speed="0.025">
+            🍫
 
-        <div class="tower left"></div>
+            <span class="theme-tooltip">
+                Chocolate Dream
+            </span>
 
-        <div class="tower right"></div>
+        </button>
 
-        <div class="castle-body">
 
-            <div class="castle-window"></div>
+        <button
+            class="theme-button"
+            data-theme="fruit"
+            aria-label="ธีมผลไม้รวม"
+        >
 
-            <div class="castle-door"></div>
+            🍓
 
-        </div>
+            <span class="theme-tooltip">
+                Fruit Wonderland
+            </span>
+
+        </button>
 
     </div>
 
 
-    <!-- BUTTERFLIES -->
+    <!-- =========================================================
+         HERO
+    ========================================================= -->
 
-    <div class="creature butterfly">
-        🦋
-    </div>
+    <header
+        class="hero"
+        id="home"
+    >
 
-    <div
-        class="creature butterfly"
-        style="animation-delay:-7s;font-size:20px;">
-        🦋
-    </div>
+        <div
+            class="hero-content"
+            id="heroContent"
+        >
 
-    <div class="creature bee">
-        🐝
-    </div>
-
-
-    <!-- PETALS -->
-
-    <div class="petals" id="petals"></div>
-
-
-    <!-- HERO -->
-
-    <section class="hero" id="home">
-
-        <div class="hero-content">
-
-            <div class="welcome">
+            <div class="eyebrow">
                 ✦ WELCOME TO THE STORY ✦
             </div>
 
-            <!--
-              ใช้ padding + overflow visible
-              เพื่อให้ตัว J และหาง J ไม่ถูกตัด
-            -->
-
             <h1 class="hero-title">
                 Kim Dokja
-
-                <span class="title-spark"></span>
             </h1>
 
-            <p class="hero-desc">
+            <div class="hero-subtitle">
+                The Reader in a Sweet Fantasy
+            </div>
 
-                ชายหนุ่มธรรมดาที่อ่านนิยายเรื่องหนึ่ง
-                จนจบเพียงคนเดียว<br>
+            <p class="hero-description">
 
-                ก่อนที่โลกในนิยายจะกลายเป็นความจริง
-                และเขาต้องใช้ความรู้จากนิยายเพื่อเอาชีวิตรอด
+                ชายหนุ่มธรรมดาคนหนึ่งที่อ่านนิยายเรื่องหนึ่ง
+                จนถึงตอนจบเพียงลำพัง
+                แต่เมื่อโลกในนิยายกลายเป็นความจริง
+                เขากลับกลายเป็นเพียงคนเดียว
+                ที่รู้ว่าเรื่องราวนี้ควรจะดำเนินต่อไปอย่างไร
+
+                <br><br>
+
+                จากโลกแห่งสถานการณ์และดวงดาว
+                สู่โลกแฟนตาซีที่ถูกแต่งแต้มด้วยขนมหวาน
+                เรื่องราวของ Kim Dokja,
+                KimCom และ The Oldest Dream
+                ยังคงดำเนินต่อไป...
 
             </p>
 
-            <a
-                href="#gallery"
-                class="story-button">
+            <div class="hero-buttons">
 
-                ✦ เปิดประตูสู่แกลเลอรี ✦
+                <a
+                    href="#gallery"
+                    class="hero-btn primary"
+                >
+                    ✦ เปิดประตูสู่แกลเลอรี
+                </a>
 
-            </a>
+                <a
+                    href="#story"
+                    class="hero-btn secondary"
+                >
+                    🍰 สำรวจเรื่องราว
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         GALLERY
+    ========================================================= -->
+
+    <section id="gallery">
+
+        <div class="section-heading reveal">
+
+            <div class="section-kicker">
+                ✧ SWEET STORY COLLECTION ✧
+            </div>
+
+            <h2 class="section-title">
+                My Gallery
+            </h2>
+
+            <p class="section-description">
+                เรื่องราวจากโลกของ Omniscient Reader's Viewpoint
+            </p>
+
+        </div>
+
+
+        <div class="gallery">
+
+
+            <!-- CARD 1 -->
+
+            <article
+                class="story-card reveal"
+                data-card="dokja"
+            >
+
+                <div class="card-light"></div>
+
+                <div class="image-frame">
+
+                    <img
+                        class="story-image"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYQ0JK1E2Kco34ND9uMKlLjxTmya-QATPvPHj8kEfMTQ&s=10"
+                        alt="Kim Dokja"
+                    >
+
+                </div>
+
+
+                <div class="card-content">
+
+                    <span class="card-tag">
+                        THE READER
+                    </span>
+
+                    <h3 class="card-title">
+                        Kim Dokja
+                    </h3>
+
+                    <p class="card-text">
+
+                        ผู้อ่านเพียงคนเดียวที่อ่าน
+                        Three Ways to Survive in a Ruined World
+                        จนถึงตอนจบ
+                        และกลายเป็นคนที่มีความสำคัญ
+                        ต่อเรื่องราวที่เขาเคยอ่านมากที่สุด
+
+                    </p>
+
+                    <div class="card-meta">
+
+                        <span>
+                            🍰 Sweet Reader
+                        </span>
+
+                        <span>
+                            ✧ 01
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CARD 2 -->
+
+            <article
+                class="story-card reveal"
+                data-card="kimcom"
+            >
+
+                <div class="card-light"></div>
+
+                <div class="image-frame">
+
+                    <img
+                        class="story-image"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB2LDrC0tpvYwP2F12CIMpZA9yhdQUQXBuYRsR-Y8glw&s=10"
+                        alt="KimCom"
+                    >
+
+                </div>
+
+
+                <div class="card-content">
+
+                    <span class="card-tag">
+                        KIM DOKJA COMPANY
+                    </span>
+
+                    <h3 class="card-title">
+                        KimCom
+                    </h3>
+
+                    <p class="card-text">
+
+                        กลุ่มคนที่ร่วมเดินทาง
+                        ผ่านสถานการณ์อันแสนวุ่นวาย
+                        และกลายเป็นส่วนสำคัญ
+                        ของเรื่องราวและความสัมพันธ์
+                        ที่เชื่อมโยงพวกเขาเข้าด้วยกัน
+
+                    </p>
+
+                    <div class="card-meta">
+
+                        <span>
+                            🍭 Sweet Company
+                        </span>
+
+                        <span>
+                            ✧ 02
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CARD 3 -->
+
+            <article
+                class="story-card reveal"
+                data-card="oldest"
+            >
+
+                <div class="card-light"></div>
+
+                <div class="image-frame">
+
+                    <img
+                        class="story-image"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcReAqWR1xE6xUrRBRTMEEN4vFM9bj4Sott5WGxiL6LjIw&s=10"
+                        alt="The Oldest Dream"
+                    >
+
+                </div>
+
+
+                <div class="card-content">
+
+                    <span class="card-tag">
+                        THE OLDEST DREAM
+                    </span>
+
+                    <h3 class="card-title">
+                        The Oldest Dream
+                    </h3>
+
+                    <p class="card-text">
+
+                        ความฝันที่เป็นหนึ่งในแก่นสำคัญ
+                        ของเรื่องราว
+                        และเป็นแนวคิดที่เชื่อมโยง
+                        การมีอยู่ของโลก
+                        ผู้อ่าน และเรื่องราวเข้าด้วยกัน
+
+                    </p>
+
+                    <div class="card-meta">
+
+                        <span>
+                            🧁 Sweet Dream
+                        </span>
+
+                        <span>
+                            ✧ 03
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
 
         </div>
 
     </section>
 
 
-    <!-- MEADOW -->
+    <!-- =========================================================
+         STORY TIMELINE
+    ========================================================= -->
 
-    <div class="meadow" id="meadow"></div>
+    <section id="story">
 
-</main>
+        <div class="section-heading reveal">
 
-
-<!-- ======================================================
-     GALLERY
-====================================================== -->
-
-<section
-    class="gallery-section"
-    id="gallery">
-
-    <h2 class="section-title">
-        My Gallery
-    </h2>
-
-    <p class="section-sub">
-        เรื่องราวจากโลกของ Omniscient Reader
-    </p>
-
-
-    <div class="gallery">
-
-
-        <!-- CARD 1 -->
-
-        <article class="card">
-
-            <div class="card-image">
-
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYQ0JK1E2Kco34ND9uMKlLjxTmya-QATPvPHj8kEfMTQ&s=10"
-                    alt="Kim Dokja">
-
-                <div class="image-shine"></div>
-
+            <div class="section-kicker">
+                ✧ STORY TIMELINE ✧
             </div>
 
-            <div class="card-info">
+            <h2 class="section-title">
+                The Sweet Story
+            </h2>
 
-                <h3>
-                    ✿ Kim Dokja
-                </h3>
+            <p class="section-description">
+                เรื่องราวที่ค่อย ๆ เปิดเผยทีละบท
+            </p>
 
-                <p>
-                    ชายหนุ่มธรรมดาที่อ่านนิยายเรื่องหนึ่ง
-                    จนจบเพียงคนเดียว ก่อนที่โลกในนิยายจะ
-                    กลายเป็นความจริง และเขาต้องใช้ความรู้
-                    จากนิยายเพื่อเอาชีวิตรอด
-                </p>
-
-                <span class="card-tag">
-                    THE READER
-                </span>
-
-            </div>
-
-        </article>
+        </div>
 
 
-        <!-- CARD 2 -->
-
-        <article class="card">
-
-            <div class="card-image">
-
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB2LDrC0tpvYwP2F12CIMpZA9yhdQUQXBuYRsR-Y8glw&s=10"
-                    alt="KimCom">
-
-                <div class="image-shine"></div>
-
-            </div>
-
-            <div class="card-info">
-
-                <h3>
-                    ✿ KimCom
-                </h3>
-
-                <p>
-                    เป็นภาพที่มีบรรยากาศอบอุ่น
-                    และให้ความรู้สึกแตกต่างจาก
-                    ฉากการต่อสู้ภายในเรื่อง
-                </p>
-
-                <span class="card-tag">
-                    KIM DOKJA COMPANY
-                </span>
-
-            </div>
-
-        </article>
+        <div class="timeline">
 
 
-        <!-- CARD 3 -->
+            <!-- CHAPTER 01 -->
 
-        <article class="card">
+            <div class="timeline-item reveal">
 
-            <div class="card-image">
-
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReAqWR1xE6xUrRBRTMEEN4vFM9bj4Sott5WGxiL6LjIw&s=10"
-                    alt="Oldest Dream">
-
-                <div class="image-shine"></div>
-
-            </div>
-
-            <div class="card-info">
-
-                <h3>
-                    ✿ Oldest Dream
-                </h3>
-
-                <p>
-                    ผู้ที่มีบทบาทต่อเรื่องราวทั้งหมด
-                    และเป็นส่วนสำคัญของการดำเนินเรื่อง
-                    ที่เชื่อมโยงระหว่างผู้อ่าน ตัวละคร
-                    และเรื่องราว
-                </p>
-
-                <span class="card-tag">
-                    THE DREAM
-                </span>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     TIMELINE
-====================================================== -->
-
-<section class="timeline-section">
-
-    <h2 class="section-title">
-        Story Timeline
-    </h2>
-
-    <p class="section-sub">
-        เส้นทางของ Kim Dokja...เรื่องราวการเป็นผู้อ่าน
-        จนกลายเป็นส่วนหนึ่งของเรื่อง
-    </p>
-
-
-    <div class="timeline">
-
-
-        <div class="timeline-item">
-
-            <div class="timeline-dot"></div>
-
-            <div class="timeline-box">
-
-                <div class="chapter">
-                    CHAPTER 01
+                <div class="timeline-icon">
+                    🍓
                 </div>
 
-                <h3>
-                    The Reader
-                </h3>
+                <div class="timeline-box">
 
-                <p>
-                    จุดเริ่มต้นของชายหนุ่มธรรมดา
-                    ผู้เป็นเพียงคนเดียวที่อ่านนิยายเรื่องนี้จนจบ
-                </p>
+                    <h3 class="timeline-title">
+                        CHAPTER 01 — The Reader
+                    </h3>
+
+                    <p class="timeline-text">
+
+                        Kim Dokja เป็นคนธรรมดาที่อ่านนิยาย
+                        เรื่องหนึ่งจนถึงบทสุดท้าย
+                        โดยไม่รู้เลยว่าความรู้ทั้งหมด
+                        ที่เขาสะสมจากการอ่าน
+                        จะกลายเป็นกุญแจสำคัญ
+                        ในโลกที่กำลังเปลี่ยนไป
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHAPTER 02 -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-icon">
+                    🍭
+                </div>
+
+                <div class="timeline-box">
+
+                    <h3 class="timeline-title">
+                        CHAPTER 02 — The Scenario
+                    </h3>
+
+                    <p class="timeline-text">
+
+                        โลกเปลี่ยนไปเป็นเหมือนเรื่องราว
+                        ที่เขาเคยอ่าน
+                        สถานการณ์ต่าง ๆ เริ่มเกิดขึ้นจริง
+                        และความรู้ของ "ผู้อ่าน"
+                        กลายเป็นสิ่งที่สามารถเปลี่ยนแปลง
+                        เส้นทางของเรื่องได้
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHAPTER 03 -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-icon">
+                    🍫
+                </div>
+
+                <div class="timeline-box">
+
+                    <h3 class="timeline-title">
+                        CHAPTER 03 — Kim Dokja Company
+                    </h3>
+
+                    <p class="timeline-text">
+
+                        จากการเดินทางเพียงลำพัง
+                        เรื่องราวค่อย ๆ เปลี่ยนไป
+                        เมื่อผู้คนที่ร่วมเดินทาง
+                        กลายเป็นกลุ่มที่มีความผูกพัน
+                        และกลายเป็น Kim Dokja Company
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHAPTER 04 -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-icon">
+                    ✨
+                </div>
+
+                <div class="timeline-box">
+
+                    <h3 class="timeline-title">
+                        CHAPTER 04 — The Oldest Dream
+                    </h3>
+
+                    <p class="timeline-text">
+
+                        เมื่อเรื่องราวเดินทางไปถึงคำถาม
+                        เกี่ยวกับความฝัน การมีอยู่
+                        และผู้ที่กำลังเฝ้ามองเรื่องราว
+                        โลกทั้งใบก็กลายเป็นมากกว่า
+                        เพียงนิยายเรื่องหนึ่ง
+
+                    </p>
+
+                </div>
 
             </div>
 
         </div>
 
+    </section>
 
-        <div class="timeline-item">
 
-            <div class="timeline-dot"></div>
+    <!-- =========================================================
+         QUOTE
+    ========================================================= -->
 
-            <div class="timeline-box">
+    <section
+        class="quote-section"
+        id="quote"
+    >
 
-                <div class="chapter">
-                    CHAPTER 02
-                </div>
+        <div class="quote-box reveal">
 
-                <h3>
-                    The Scenario
-                </h3>
-
-                <p>
-                    โลกที่เคยเป็นเพียงเรื่องราว
-                    กลายเป็นความจริงตรงหน้า
-                </p>
-
+            <div class="quote-emoji">
+                🍰✨
             </div>
+
+            <h2 class="quote-title">
+                Every Story Needs a Reader
+            </h2>
+
+            <p class="quote-text">
+
+                ทุกเรื่องราวต้องมีใครสักคนอ่าน
+                และบางครั้ง
+                คนอ่านก็สามารถกลายเป็นส่วนหนึ่ง
+                ของเรื่องราวนั้นได้
+
+                <br><br>
+
+                ในโลกใบนี้
+                เรื่องราวอาจเปลี่ยนรูปร่างไปได้
+                แต่สิ่งหนึ่งยังคงเหมือนเดิม
+
+                <br>
+
+                <strong>
+                    ทุกเรื่องราวมีความหมาย
+                    เพราะมีใครบางคนเลือกที่จะมองมัน
+                </strong>
+
+            </p>
 
         </div>
 
+    </section>
 
-        <div class="timeline-item">
 
-            <div class="timeline-dot"></div>
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
 
-            <div class="timeline-box">
+    <footer>
 
-                <div class="chapter">
-                    CHAPTER 03
-                </div>
+        <h2 class="footer-title">
+            Sweet ORV
+        </h2>
 
-                <h3>
-                    Kim Dokja Company
-                </h3>
+        <p class="footer-text">
+            A little corner of the story.
+        </p>
 
-                <p>
-                    จากคนคนเดียว กลายเป็นกลุ่มคน
-                    ที่ร่วมเดินทางผ่านเรื่องราวไปด้วยกัน
-                </p>
-
-            </div>
-
+        <div class="footer-line">
+            ✦ Every Story Needs a Reader ✦
         </div>
 
+        <p class="footer-text">
+            © 2026 Kim Dokja Sweet Fantasy
+        </p>
 
-        <div class="timeline-item">
-
-            <div class="timeline-dot"></div>
-
-            <div class="timeline-box">
-
-                <div class="chapter">
-                    CHAPTER 04
-                </div>
-
-                <h3>
-                    The Oldest Dream
-                </h3>
-
-                <p>
-                    ความฝันที่อยู่เบื้องหลังเรื่องราว
-                    และความสัมพันธ์ระหว่างผู้อ่านกับเรื่อง
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
+    </footer>
 
 
-<!-- ======================================================
-     SECRET
-====================================================== -->
+    <!-- =========================================================
+         GIANT DESSERT PILE
+    ========================================================= -->
 
-<section class="secret">
+    <div
+        class="bottom-dessert-pile"
+        id="bottomPile"
+    ></div>
+
+
+    <!-- =========================================================
+         SCROLL TO TOP
+    ========================================================= -->
 
     <button
-        class="secret-button"
-        id="secretBtn">
-
-        ✦ คลิกเพื่อค้นหาความลับ ✦
-
+        id="topButton"
+        aria-label="กลับด้านบน"
+    >
+        ↑
     </button>
 
 
-    <div
-        class="secret-text"
-        id="secretText">
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
+
+    <script>
+
+        /* =========================================================
+           THEME CONFIGURATION
+        ========================================================= */
+
+        const themes = {
+
+            normal: {
+
+                logo: "🍰 Sweet ORV",
+
+                burst: [
+                    "🍰",
+                    "🍭",
+                    "🍓",
+                    "🧁",
+                    "🍬",
+                    "🍩",
+                    "🍪",
+                    "✨",
+                    "💗"
+                ],
+
+                floating: [
+                    "🍭",
+                    "🍬",
+                    "🍰",
+                    "🧁",
+                    "🍩",
+                    "🍪",
+                    "🍓",
+                    "🍫",
+                    "🍒",
+                    "✨",
+                    "💗"
+                ],
+
+                balloon: [
+                    "🎈",
+                    "🎈",
+                    "🎈",
+                    "🎈"
+                ],
+
+                click: [
+                    "🍭",
+                    "🍬",
+                    "🍓",
+                    "🧁",
+                    "🍰",
+                    "🍒",
+                    "✨"
+                ],
+
+                pile: [
+                    "🍰",
+                    "🧁",
+                    "🍩",
+                    "🍭",
+                    "🍓",
+                    "🍪",
+                    "🍬"
+                ],
+
+                icons: [
+                    "🍓",
+                    "🍭",
+                    "🧁",
+                    "✨"
+                ]
+
+            },
+
+
+            chocolate: {
+
+                logo: "🍫 Sweet ORV",
+
+                burst: [
+                    "🍫",
+                    "🍪",
+                    "🥜",
+                    "🍩",
+                    "🍫",
+                    "🤎",
+                    "✨"
+                ],
+
+                floating: [
+                    "🍫",
+                    "🍪",
+                    "🥜",
+                    "🍩",
+                    "🌰",
+                    "🍫",
+                    "🤎",
+                    "✨"
+                ],
+
+                balloon: [
+                    "🎈",
+                    "🎈",
+                    "🎈",
+                    "🎈"
+                ],
+
+                click: [
+                    "🍫",
+                    "🍪",
+                    "🥜",
+                    "🌰",
+                    "🍩",
+                    "🤎",
+                    "✨"
+                ],
+
+                pile: [
+                    "🍫",
+                    "🍪",
+                    "🥜",
+                    "🍩",
+                    "🌰",
+                    "🍫",
+                    "🤎"
+                ],
+
+                icons: [
+                    "🍫",
+                    "🥜",
+                    "🍪",
+                    "✨"
+                ]
+
+            },
+
+
+            fruit: {
+
+                logo: "🍓 Sweet ORV",
+
+                burst: [
+                    "🍓",
+                    "🍊",
+                    "🍉",
+                    "🍇",
+                    "🍒",
+                    "🥝",
+                    "🍍",
+                    "✨"
+                ],
+
+                floating: [
+                    "🍓",
+                    "🍊",
+                    "🍉",
+                    "🍇",
+                    "🍒",
+                    "🥝",
+                    "🍍",
+                    "🍋",
+                    "✨"
+                ],
+
+                balloon: [
+                    "🎈",
+                    "🎈",
+                    "🎈",
+                    "🎈"
+                ],
+
+                click: [
+                    "🍓",
+                    "🍊",
+                    "🍉",
+                    "🍇",
+                    "🍒",
+                    "🥝",
+                    "✨"
+                ],
+
+                pile: [
+                    "🍓",
+                    "🍊",
+                    "🍉",
+                    "🍇",
+                    "🍒",
+                    "🥝",
+                    "🍍"
+                ],
+
+                icons: [
+                    "🍓",
+                    "🍊",
+                    "🍉",
+                    "🍇"
+                ]
+
+            }
+
+        };
+
+
+        let currentTheme = "normal";
+
+
+        /* =========================================================
+           HELPERS
+        ========================================================= */
+
+        function randomItem(array) {
+
+            return array[
+                Math.floor(
+                    Math.random() * array.length
+                )
+            ];
+
+        }
+
+
+        /* =========================================================
+           THEME SWITCH
+        ========================================================= */
+
+        const themeButtons =
+            document.querySelectorAll(
+                ".theme-button"
+            );
+
+        themeButtons.forEach((button) => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    currentTheme =
+                        button.dataset.theme;
+
+                    document.body.classList.remove(
+                        "theme-chocolate",
+                        "theme-fruit"
+                    );
+
+
+                    if (
+                        currentTheme ===
+                        "chocolate"
+                    ) {
+
+                        document.body.classList.add(
+                            "theme-chocolate"
+                        );
+
+                    }
+
+
+                    if (
+                        currentTheme ===
+                        "fruit"
+                    ) {
+
+                        document.body.classList.add(
+                            "theme-fruit"
+                        );
+
+                    }
+
+
+                    themeButtons.forEach(
+                        (item) => {
+
+                            item.classList.remove(
+                                "active"
+                            );
 
-        “บางเรื่องราว...
-        จะยังคงมีอยู่ตราบใดที่ยังมีใครสักคนอ่านมัน”
-
-        <br><br>
-
-        — The Story Continues —
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     LIGHTBOX
-====================================================== -->
-
-<div
-    class="lightbox"
-    id="lightbox">
-
-    <div
-        class="lightbox-close"
-        id="lightboxClose">
-        ×
-    </div>
-
-    <img
-        id="lightboxImg"
-        src=""
-        alt="">
-
-</div>
-
-
-<!-- ======================================================
-     FOOTER
-====================================================== -->
-
-<footer>
-
-    <strong>Kim Dokja</strong>
-
-    <br>
-
-    A small corner of the story.
-
-    <br><br>
-
-    ✦ Every story needs a reader ✦
-
-</footer>
-
-
-<script>
-
-/* =========================================================
-   LOADER
-========================================================= */
-
-window.addEventListener("load",()=>{
-
-    setTimeout(()=>{
-
-        document
-            .getElementById("loader")
-            .classList.add("hide");
-
-    },3300);
-
-});
-
-
-/* =========================================================
-   STARS
-========================================================= */
-
-const sky = document.getElementById("sky");
-
-for(let i=0;i<100;i++){
-
-    const star=document.createElement("div");
-
-    star.className="star";
-
-    star.style.left=Math.random()*100+"%";
-    star.style.top=Math.random()*65+"%";
-
-    star.style.animationDelay=
-        Math.random()*4+"s";
-
-    star.style.opacity=
-        .2+Math.random()*.8;
-
-    sky.appendChild(star);
-}
-
-
-/* =========================================================
-   GRASS
-========================================================= */
-
-const meadow=
-    document.getElementById("meadow");
-
-for(let i=0;i<180;i++){
-
-    const grass=
-        document.createElement("div");
-
-    grass.className="grass";
-
-    grass.style.left=
-        Math.random()*100+"%";
-
-    grass.style.height=
-        25+Math.random()*70+"px";
-
-    grass.style.opacity=
-        .3+Math.random()*.7;
-
-    grass.style.animationDelay=
-        Math.random()*3+"s";
-
-    meadow.appendChild(grass);
-}
-
-
-/* =========================================================
-   FLOWERS
-========================================================= */
-
-for(let i=0;i<28;i++){
-
-    const flower=
-        document.createElement("div");
-
-    flower.className="meadow-flower";
-
-    flower.style.left=
-        Math.random()*100+"%";
-
-    flower.style.bottom=
-        8+Math.random()*25+"%";
-
-    flower.style.transform=
-        `scale(${.55+Math.random()*.8})`;
-
-    flower.style.animationDelay=
-        Math.random()*4+"s";
-
-    meadow.appendChild(flower);
-}
-
-
-/* =========================================================
-   FIREFLIES
-========================================================= */
-
-for(let i=0;i<45;i++){
-
-    const f=
-        document.createElement("div");
-
-    f.className="firefly";
-
-    f.style.left=
-        Math.random()*100+"%";
-
-    f.style.top=
-        20+Math.random()*70+"%";
-
-    f.style.animationDelay=
-        Math.random()*5+"s";
-
-    f.style.animationDuration=
-        3+Math.random()*5+"s";
-
-    document.body.appendChild(f);
-}
-
-
-/* =========================================================
-   FALLING PETALS
-========================================================= */
-
-const petals=
-    document.getElementById("petals");
-
-function createPetal(){
-
-    const p=
-        document.createElement("div");
-
-    p.className="petal";
-
-    p.style.left=
-        Math.random()*100+"%";
-
-    p.style.setProperty(
-        "--drift",
-        (-100+Math.random()*200)+"px"
-    );
-
-    p.style.animationDuration=
-        5+Math.random()*6+"s";
-
-    p.style.opacity=
-        .3+Math.random()*.7;
-
-    p.style.transform=
-        `rotate(${Math.random()*360}deg)`;
-
-    petals.appendChild(p);
-
-    setTimeout(()=>{
-        p.remove();
-    },12000);
-}
-
-setInterval(createPetal,420);
-
-
-/* =========================================================
-   FLOWER CURSOR
-========================================================= */
-
-const cursorFlower=
-    document.getElementById("cursorFlower");
-
-document.addEventListener("mousemove",(e)=>{
-
-    cursorFlower.style.left=e.clientX+"px";
-    cursorFlower.style.top=e.clientY+"px";
-
-});
-
-
-/* =========================================================
-   FLOWERS FOLLOW MOUSE
-========================================================= */
-
-document.addEventListener("mousemove",(e)=>{
-
-    if(Math.random()>.94){
-
-        const flower=
-            document.createElement("div");
-
-        flower.className="magic-petal";
-
-        flower.style.left=e.clientX+"px";
-        flower.style.top=e.clientY+"px";
-
-        flower.style.setProperty(
-            "--x",
-            (-30+Math.random()*60)+"px"
-        );
-
-        flower.style.setProperty(
-            "--y",
-            (-30+Math.random()*60)+"px"
-        );
-
-        document.body.appendChild(flower);
-
-        setTimeout(()=>{
-            flower.remove();
-        },900);
-
-    }
-
-});
-
-
-/* =========================================================
-   CLICK MAGIC EXPLOSION
-========================================================= */
-
-document.addEventListener("click",(e)=>{
-
-    if(
-        e.target.closest(".control") ||
-        e.target.closest(".secret-button") ||
-        e.target.closest(".lightbox-close")
-    ){
-        return;
-    }
-
-
-    const ring=
-        document.createElement("div");
-
-    ring.className="magic-ring";
-
-    ring.style.left=e.clientX+"px";
-    ring.style.top=e.clientY+"px";
-
-    document.body.appendChild(ring);
-
-    setTimeout(()=>{
-        ring.remove();
-    },900);
-
-
-    for(let i=0;i<28;i++){
-
-        const p=
-            document.createElement("div");
-
-        p.className="magic-petal";
-
-        p.style.left=e.clientX+"px";
-        p.style.top=e.clientY+"px";
-
-        const angle=
-            Math.random()*Math.PI*2;
-
-        const distance=
-            80+Math.random()*160;
-
-        p.style.setProperty(
-            "--x",
-            Math.cos(angle)*distance+"px"
-        );
-
-        p.style.setProperty(
-            "--y",
-            Math.sin(angle)*distance+"px"
-        );
-
-        document.body.appendChild(p);
-
-        setTimeout(()=>{
-            p.remove();
-        },950);
-
-    }
-
-});
-
-
-/* =========================================================
-   PARALLAX
-========================================================= */
-
-const parallaxElements=
-    document.querySelectorAll(".parallax");
-
-document.addEventListener("mousemove",(e)=>{
-
-    const x=
-        (e.clientX/window.innerWidth-.5);
-
-    const y=
-        (e.clientY/window.innerHeight-.5);
-
-    parallaxElements.forEach(el=>{
-
-        const speed=
-            Number(el.dataset.speed||.05);
-
-        el.style.transform=
-            `translate(${x*speed*150}px,
-                       ${y*speed*100}px)`;
-
-    });
-
-});
-
-
-/* =========================================================
-   CARD 3D TILT
-========================================================= */
-
-document
-.querySelectorAll(".card")
-.forEach(card=>{
-
-    card.addEventListener("mousemove",(e)=>{
-
-        const rect=
-            card.getBoundingClientRect();
-
-        const x=
-            e.clientX-rect.left;
-
-        const y=
-            e.clientY-rect.top;
-
-        const rotateY=
-            (x/rect.width-.5)*14;
-
-        const rotateX=
-            -(y/rect.height-.5)*14;
-
-        card.style.transform=
-            `perspective(900px)
-             rotateX(${rotateX}deg)
-             rotateY(${rotateY}deg)
-             translateY(-8px)`;
-
-        card.style.boxShadow=
-            "0 35px 90px rgba(215,160,255,.28)";
-
-    });
-
-
-    card.addEventListener("mouseleave",()=>{
-
-        card.style.transform=
-            "perspective(900px) rotateX(0) rotateY(0)";
-
-        card.style.boxShadow=
-            "0 30px 70px rgba(0,0,0,.4)";
-
-    });
-
-});
-
-
-/* =========================================================
-   IMAGE LIGHTBOX
-========================================================= */
-
-const lightbox=
-    document.getElementById("lightbox");
-
-const lightboxImg=
-    document.getElementById("lightboxImg");
-
-document
-.querySelectorAll(".card-image img")
-.forEach(img=>{
-
-    img.addEventListener("click",()=>{
-
-        lightboxImg.src=img.src;
-
-        lightbox.classList.add("show");
-
-    });
-
-});
-
-
-document
-.getElementById("lightboxClose")
-.addEventListener("click",()=>{
-
-    lightbox.classList.remove("show");
-
-});
-
-
-lightbox.addEventListener("click",(e)=>{
-
-    if(e.target===lightbox){
-
-        lightbox.classList.remove("show");
-
-    }
-
-});
-
-
-/* =========================================================
-   DAY → SUNSET → NIGHT
-========================================================= */
-
-const world=
-    document.getElementById("world");
-
-const worldBtn=
-    document.getElementById("worldBtn");
-
-let worldMode=0;
-
-worldBtn.addEventListener("click",()=>{
-
-    worldMode++;
-
-    if(worldMode===1){
-
-        world.classList.add("sunset");
-        world.classList.remove("night");
-
-        worldBtn.textContent="🌇";
-
-    }
-
-    else if(worldMode===2){
-
-        world.classList.remove("sunset");
-        world.classList.add("night");
-
-        worldBtn.textContent="🌙";
-
-    }
-
-    else{
-
-        world.classList.remove("sunset","night");
-
-        worldBtn.textContent="🌸";
-
-        worldMode=0;
-
-    }
-
-});
-
-
-/* =========================================================
-   SECRET MESSAGE
-========================================================= */
-
-const secretBtn=
-    document.getElementById("secretBtn");
-
-const secretText=
-    document.getElementById("secretText");
-
-secretBtn.addEventListener("click",()=>{
-
-    secretText.classList.toggle("show");
-
-    if(secretText.classList.contains("show")){
-
-        secretBtn.textContent=
-            "✦ คุณพบความลับแล้ว ✦";
-
-    }else{
-
-        secretBtn.textContent=
-            "✦ คลิกเพื่อค้นหาความลับ ✦";
-
-    }
-
-});
-
-
-/* =========================================================
-   FLOWER BLOOM WHEN SCROLLING
-========================================================= */
-
-const cards=
-    document.querySelectorAll(".card");
-
-const observer=
-    new IntersectionObserver(
-        entries=>{
-
-            entries.forEach(entry=>{
-
-                if(entry.isIntersecting){
-
-                    entry.target.animate(
-                        [
-                            {
-                                opacity:0,
-                                transform:
-                                "translateY(60px) scale(.96)"
-                            },
-                            {
-                                opacity:1,
-                                transform:
-                                "translateY(0) scale(1)"
-                            }
-                        ],
-                        {
-                            duration:900,
-                            easing:"cubic-bezier(.2,.8,.2,1)",
-                            fill:"forwards"
                         }
+                    );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    document.getElementById(
+                        "logoText"
+                    ).textContent =
+                        themes[currentTheme].logo;
+
+
+                    updateTimelineIcons();
+
+                    updateBottomPile();
+
+                    restartFloatingSweets();
+
+                }
+            );
+
+        });
+
+
+        /* =========================================================
+           TIMELINE ICONS
+        ========================================================= */
+
+        function updateTimelineIcons() {
+
+            const icons =
+                document.querySelectorAll(
+                    ".timeline-icon"
+                );
+
+            icons.forEach(
+                (icon, index) => {
+
+                    icon.textContent =
+                        themes[
+                            currentTheme
+                        ].icons[
+                            index %
+                            themes[currentTheme]
+                                .icons.length
+                        ];
+
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           BOTTOM GIANT PILE
+        ========================================================= */
+
+        function updateBottomPile() {
+
+            const pile =
+                document.getElementById(
+                    "bottomPile"
+                );
+
+            pile.innerHTML = "";
+
+            themes[currentTheme].pile
+                .forEach((item) => {
+
+                    const span =
+                        document.createElement(
+                            "span"
+                        );
+
+                    span.className =
+                        "pile-item";
+
+                    span.textContent =
+                        item;
+
+                    pile.appendChild(span);
+
+                });
+
+        }
+
+
+        /* =========================================================
+           FLOATING SWEETS
+        ========================================================= */
+
+        function createFloatingSweet() {
+
+            const sweet =
+                document.createElement(
+                    "span"
+                );
+
+            sweet.className =
+                "floating-sweet";
+
+            sweet.textContent =
+                randomItem(
+                    themes[currentTheme]
+                        .floating
+                );
+
+            sweet.style.left =
+                Math.random() * 100 + "%";
+
+            sweet.style.fontSize =
+                18 +
+                Math.random() * 28 +
+                "px";
+
+            sweet.style.setProperty(
+                "--sway",
+                (
+                    Math.random() * 160 -
+                    80
+                ) + "px"
+            );
+
+            sweet.style.animationDuration =
+                12 +
+                Math.random() * 18 +
+                "s";
+
+            document
+                .querySelector(
+                    ".magic-background"
+                )
+                .appendChild(
+                    sweet
+                );
+
+            setTimeout(
+                () => {
+
+                    sweet.remove();
+
+                },
+                32000
+            );
+
+        }
+
+
+        function createFloatingSweets() {
+
+            for (
+                let i = 0;
+                i < 55;
+                i++
+            ) {
+
+                setTimeout(
+                    () => {
+
+                        createFloatingSweet();
+
+                    },
+                    i * 230
+                );
+
+            }
+
+        }
+
+
+        function restartFloatingSweets() {
+
+            document
+                .querySelectorAll(
+                    ".floating-sweet"
+                )
+                .forEach(
+                    (item) =>
+                        item.remove()
+                );
+
+            createFloatingSweets();
+
+        }
+
+
+        /* =========================================================
+           SPARKLES
+        ========================================================= */
+
+        function createSparkles() {
+
+            const layer =
+                document.querySelector(
+                    ".magic-background"
+                );
+
+            for (
+                let i = 0;
+                i < 65;
+                i++
+            ) {
+
+                const star =
+                    document.createElement(
+                        "span"
+                    );
+
+                star.className =
+                    "sparkle";
+
+                star.style.left =
+                    Math.random() * 100 +
+                    "%";
+
+                star.style.top =
+                    Math.random() * 100 +
+                    "%";
+
+                star.style.animationDuration =
+                    (
+                        1 +
+                        Math.random() * 3
+                    ) +
+                    "s";
+
+                star.style.animationDelay =
+                    Math.random() * 4 +
+                    "s";
+
+                layer.appendChild(
+                    star
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           BALLOONS
+           3-4 BALLOONS EVERY FEW SECONDS
+        ========================================================= */
+
+        function spawnBalloons() {
+
+            const amount =
+                3 +
+                Math.floor(
+                    Math.random() * 2
+                );
+
+
+            for (
+                let i = 0;
+                i < amount;
+                i++
+            ) {
+
+                setTimeout(
+                    () => {
+
+                        const balloon =
+                            document.createElement(
+                                "div"
+                            );
+
+                        balloon.className =
+                            "balloon";
+
+                        balloon.textContent =
+                            randomItem(
+                                themes[
+                                    currentTheme
+                                ].balloon
+                            );
+
+                        balloon.style.left =
+                            Math.random() * 94 +
+                            "%";
+
+                        balloon.style.setProperty(
+                            "--duration",
+                            (
+                                9 +
+                                Math.random() * 7
+                            ) +
+                            "s"
+                        );
+
+                        balloon.style.fontSize =
+                            (
+                                45 +
+                                Math.random() * 25
+                            ) +
+                            "px";
+
+                        document
+                            .getElementById(
+                                "balloonLayer"
+                            )
+                            .appendChild(
+                                balloon
+                            );
+
+
+                        setTimeout(
+                            () => {
+
+                                balloon.remove();
+
+                            },
+                            18000
+                        );
+
+                    },
+                    i * 250
+                );
+
+            }
+
+        }
+
+
+        setInterval(
+            spawnBalloons,
+            5000
+        );
+
+
+        /* =========================================================
+           CLICK SWEET RAIN
+        ========================================================= */
+
+        document.addEventListener(
+            "click",
+            (event) => {
+
+                /*
+                    Avoid generating a huge candy explosion
+                    when clicking a theme button.
+                */
+
+                if (
+                    event.target.closest(
+                        ".theme-switcher"
+                    )
+                ) {
+                    return;
+                }
+
+
+                for (
+                    let i = 0;
+                    i < 18;
+                    i++
+                ) {
+
+                    setTimeout(
+                        () => {
+
+                            const candy =
+                                document.createElement(
+                                    "span"
+                                );
+
+                            candy.className =
+                                "click-sweet";
+
+                            candy.textContent =
+                                randomItem(
+                                    themes[
+                                        currentTheme
+                                    ].click
+                                );
+
+                            candy.style.left =
+                                (
+                                    event.clientX +
+                                    Math.random() *
+                                    150 -
+                                    75
+                                ) +
+                                "px";
+
+                            candy.style.top =
+                                (
+                                    event.clientY
+                                ) +
+                                "px";
+
+                            candy.style.setProperty(
+                                "--x",
+                                (
+                                    Math.random() *
+                                    100 -
+                                    50
+                                ) +
+                                "px"
+                            );
+
+                            candy.style.setProperty(
+                                "--drift",
+                                (
+                                    Math.random() *
+                                    120 -
+                                    60
+                                ) +
+                                "px"
+                            );
+
+                            candy.style.setProperty(
+                                "--rotate",
+                                (
+                                    Math.random() *
+                                    360
+                                ) +
+                                "deg"
+                            );
+
+                            document.body.appendChild(
+                                candy
+                            );
+
+
+                            setTimeout(
+                                () => {
+
+                                    candy.remove();
+
+                                },
+                                1800
+                            );
+
+                        },
+                        i * 45
                     );
 
                 }
 
-            });
-
-        },
-        {threshold:.15}
-    );
-
-cards.forEach(card=>observer.observe(card));
-
-
-/* =========================================================
-   AMBIENT MUSIC
-   ใช้ Web Audio สร้างเสียงบรรยากาศ
-   ไม่ต้องหาไฟล์ MP3
-========================================================= */
-
-let audioContext=null;
-let masterGain=null;
-let musicOn=false;
-let musicTimer=null;
-
-const musicBtn=
-    document.getElementById("musicBtn");
-
-function startAmbient(){
-
-    if(musicOn)return;
-
-    audioContext=
-        new (window.AudioContext||
-             window.webkitAudioContext)();
-
-    masterGain=
-        audioContext.createGain();
-
-    masterGain.gain.value=.035;
-
-    masterGain.connect(
-        audioContext.destination
-    );
-
-    const notes=[
-        261.63,
-        329.63,
-        392.00,
-        523.25
-    ];
-
-    let index=0;
-
-    function playNote(){
-
-        if(!musicOn)return;
-
-        const osc=
-            audioContext.createOscillator();
-
-        const gain=
-            audioContext.createGain();
-
-        osc.type="sine";
-
-        osc.frequency.value=
-            notes[index%notes.length];
-
-        gain.gain.setValueAtTime(
-            0,
-            audioContext.currentTime
+            }
         );
 
-        gain.gain.linearRampToValueAtTime(
-            .7,
-            audioContext.currentTime+.5
+
+        /* =========================================================
+           CURSOR GLOW
+        ========================================================= */
+
+        const cursorGlow =
+            document.getElementById(
+                "cursorGlow"
+            );
+
+
+        document.addEventListener(
+            "mousemove",
+            (event) => {
+
+                cursorGlow.style.left =
+                    event.clientX + "px";
+
+                cursorGlow.style.top =
+                    event.clientY + "px";
+
+            }
         );
 
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            audioContext.currentTime+3
+
+        /* =========================================================
+           HERO PARALLAX
+        ========================================================= */
+
+        const heroContent =
+            document.getElementById(
+                "heroContent"
+            );
+
+
+        document.addEventListener(
+            "mousemove",
+            (event) => {
+
+                const x =
+                    event.clientX /
+                    window.innerWidth -
+                    0.5;
+
+                const y =
+                    event.clientY /
+                    window.innerHeight -
+                    0.5;
+
+                heroContent.style.transform =
+                    `
+                    translate(
+                        ${x * 14}px,
+                        ${y * 14}px
+                    )
+                    `;
+
+            }
         );
 
-        osc.connect(gain);
-        gain.connect(masterGain);
 
-        osc.start();
-        osc.stop(
-            audioContext.currentTime+3
+        /* =========================================================
+           3D CARD / SEESAW EFFECT
+        ========================================================= */
+
+        const cards =
+            document.querySelectorAll(
+                ".story-card"
+            );
+
+
+        cards.forEach(
+            (card) => {
+
+                const light =
+                    card.querySelector(
+                        ".card-light"
+                    );
+
+
+                card.addEventListener(
+                    "mousemove",
+                    (event) => {
+
+                        const rect =
+                            card.getBoundingClientRect();
+
+
+                        const x =
+                            event.clientX -
+                            rect.left;
+
+
+                        const y =
+                            event.clientY -
+                            rect.top;
+
+
+                        const px =
+                            x /
+                            rect.width;
+
+
+                        const py =
+                            y /
+                            rect.height;
+
+
+                        const rotateX =
+                            (
+                                py -
+                                0.5
+                            ) *
+                            -16;
+
+
+                        const rotateY =
+                            (
+                                px -
+                                0.5
+                            ) *
+                            16;
+
+
+                        card.style.transform =
+                            `
+                            perspective(1200px)
+                            rotateX(
+                                ${rotateX}deg
+                            )
+                            rotateY(
+                                ${rotateY}deg
+                            )
+                            translateY(-8px)
+                            scale(1.025)
+                            `;
+
+
+                        /*
+                            Glass light follows mouse
+                        */
+
+                        light.style.left =
+                            x + "px";
+
+                        light.style.top =
+                            y + "px";
+
+
+                        /*
+                            Image zoom follows mouse
+                            very slightly
+                        */
+
+                        const img =
+                            card.querySelector(
+                                ".story-image"
+                            );
+
+
+                        const moveX =
+                            (
+                                px - 0.5
+                            ) *
+                            8;
+
+
+                        const moveY =
+                            (
+                                py - 0.5
+                            ) *
+                            8;
+
+
+                        img.style.transform =
+                            `
+                            scale(1.09)
+                            translate(
+                                ${moveX}px,
+                                ${moveY}px
+                            )
+                            `;
+
+                    }
+                );
+
+
+                card.addEventListener(
+                    "mouseleave",
+                    () => {
+
+                        card.style.transform =
+                            `
+                            perspective(1200px)
+                            rotateX(0deg)
+                            rotateY(0deg)
+                            translateY(0)
+                            scale(1)
+                            `;
+
+
+                        const img =
+                            card.querySelector(
+                                ".story-image"
+                            );
+
+
+                        img.style.transform =
+                            "scale(1)";
+
+                    }
+                );
+
+            }
         );
 
-        index++;
 
-        musicTimer=
-            setTimeout(playNote,1800);
+        /* =========================================================
+           SCROLL REVEAL
+        ========================================================= */
 
-    }
-
-    playNote();
-
-}
-
-
-function stopAmbient(){
-
-    musicOn=false;
-
-    clearTimeout(musicTimer);
-
-    if(audioContext){
-
-        audioContext.close();
-
-        audioContext=null;
-
-    }
-
-}
+        const revealElements =
+            document.querySelectorAll(
+                ".reveal"
+            );
 
 
-musicBtn.addEventListener("click",()=>{
+        const revealObserver =
+            new IntersectionObserver(
+                (entries) => {
 
-    if(!musicOn){
+                    entries.forEach(
+                        (entry) => {
 
-        musicOn=true;
+                            if (
+                                entry.isIntersecting
+                            ) {
 
-        startAmbient();
+                                entry.target.classList.add(
+                                    "show"
+                                );
 
-        musicBtn.textContent="♫";
+                                revealObserver.unobserve(
+                                    entry.target
+                                );
 
-    }else{
+                            }
 
-        stopAmbient();
+                        }
+                    );
 
-        musicBtn.textContent="♪";
-
-    }
-
-});
-
-
-/* =========================================================
-   KEYBOARD SECRET
-========================================================= */
-
-let typed="";
-
-document.addEventListener("keydown",(e)=>{
-
-    typed+=e.key.toLowerCase();
-
-    typed=typed.slice(-12);
-
-    if(typed.includes("dokja")){
-
-        for(let i=0;i<70;i++){
-
-            createPetal();
-
-        }
-
-        typed="";
-
-    }
-
-});
-
-
-/* =========================================================
-   CLICK CARD = MAGIC FLASH
-========================================================= */
-
-document
-.querySelectorAll(".card")
-.forEach(card=>{
-
-    card.addEventListener("click",()=>{
-
-        card.animate(
-            [
-                {
-                    filter:"brightness(1)"
                 },
                 {
-                    filter:
-                    "brightness(1.8) saturate(1.4)"
-                },
-                {
-                    filter:"brightness(1)"
+                    threshold: 0.12
                 }
-            ],
-            {
-                duration:700
+            );
+
+
+        revealElements.forEach(
+            (element) => {
+
+                revealObserver.observe(
+                    element
+                );
+
             }
         );
 
-    });
 
-});
+        /* =========================================================
+           SCROLL TOP
+        ========================================================= */
+
+        const topButton =
+            document.getElementById(
+                "topButton"
+            );
 
 
-/* =========================================================
-   PERIODIC MAGIC PARTICLES
-========================================================= */
+        window.addEventListener(
+            "scroll",
+            () => {
 
-setInterval(()=>{
+                if (
+                    window.scrollY >
+                    500
+                ) {
 
-    const x=
-        10+Math.random()*80;
+                    topButton.classList.add(
+                        "show"
+                    );
 
-    const y=
-        15+Math.random()*65;
+                } else {
 
-    const spark=
-        document.createElement("div");
+                    topButton.classList.remove(
+                        "show"
+                    );
 
-    spark.style.position="fixed";
-    spark.style.left=x+"%";
-    spark.style.top=y+"%";
-    spark.style.width="4px";
-    spark.style.height="4px";
-    spark.style.borderRadius="50%";
-    spark.style.background="white";
-    spark.style.boxShadow=
-        "0 0 10px white,0 0 25px #e7b0ff";
-    spark.style.zIndex="20";
-    spark.style.pointerEvents="none";
+                }
 
-    document.body.appendChild(spark);
-
-    spark.animate(
-        [
-            {
-                opacity:0,
-                transform:"scale(.3)"
-            },
-            {
-                opacity:1,
-                transform:"scale(2)"
-            },
-            {
-                opacity:0,
-                transform:"scale(.2)"
             }
-        ],
-        {
-            duration:1800
+        );
+
+
+        topButton.addEventListener(
+            "click",
+            () => {
+
+                window.scrollTo(
+                    {
+                        top: 0,
+                        behavior:
+                            "smooth"
+                    }
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           LOADING BURST
+        ========================================================= */
+
+        function createLoaderBurst() {
+
+            const burst =
+                document.getElementById(
+                    "loaderBurst"
+                );
+
+            const items =
+                themes[
+                    currentTheme
+                ].burst;
+
+
+            for (
+                let i = 0;
+                i < 20;
+                i++
+            ) {
+
+                const item =
+                    document.createElement(
+                        "span"
+                    );
+
+                item.className =
+                    "burst-item";
+
+                item.textContent =
+                    randomItem(
+                        items
+                    );
+
+
+                const angle =
+                    (
+                        Math.PI * 2 * i
+                    ) /
+                    20;
+
+
+                const distance =
+                    180 +
+                    Math.random() * 380;
+
+
+                const x =
+                    Math.cos(angle) *
+                    distance;
+
+
+                const y =
+                    Math.sin(angle) *
+                    distance;
+
+
+                item.style.setProperty(
+                    "--x",
+                    x + "px"
+                );
+
+                item.style.setProperty(
+                    "--y",
+                    y + "px"
+                );
+
+                item.style.setProperty(
+                    "--rotate",
+                    (
+                        Math.random() *
+                        500 -
+                        250
+                    ) +
+                    "deg"
+                );
+
+                item.style.setProperty(
+                    "--size",
+                    (
+                        Math.random() *
+                        18
+                    ) +
+                    "px"
+                );
+
+                item.style.setProperty(
+                    "--delay",
+                    (
+                        1.9 +
+                        Math.random() *
+                        0.35
+                    ) +
+                    "s"
+                );
+
+
+                burst.appendChild(
+                    item
+                );
+
+            }
+
         }
-    );
-
-    setTimeout(()=>{
-        spark.remove();
-    },1800);
-
-},650);
 
 
-/* =========================================================
-   SMOOTH MOUSE GLOW
-========================================================= */
+        /* =========================================================
+           DRIZZLE
+        ========================================================= */
 
-document.addEventListener("mousemove",(e)=>{
+        function createDrizzle() {
 
-    document.documentElement.style.setProperty(
-        "--mouse-x",
-        e.clientX+"px"
-    );
-
-    document.documentElement.style.setProperty(
-        "--mouse-y",
-        e.clientY+"px"
-    );
-
-});
+            const curtain =
+                document.getElementById(
+                    "drizzleCurtain"
+                );
 
 
-</script>
+            for (
+                let i = 0;
+                i < 25;
+                i++
+            ) {
+
+                const drip =
+                    document.createElement(
+                        "div"
+                    );
+
+                drip.className =
+                    "drip";
+
+                drip.style.setProperty(
+                    "--left",
+                    Math.random() * 100 +
+                    "%"
+                );
+
+                drip.style.setProperty(
+                    "--width",
+                    (
+                        20 +
+                        Math.random() * 70
+                    ) +
+                    "px"
+                );
+
+                drip.style.setProperty(
+                    "--height",
+                    (
+                        80 +
+                        Math.random() * 250
+                    ) +
+                    "px"
+                );
+
+                curtain.appendChild(
+                    drip
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           LOADING SEQUENCE
+        ========================================================= */
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                createLoaderBurst();
+
+                createDrizzle();
+
+                createSparkles();
+
+                updateBottomPile();
+
+                /*
+                    1. Loading
+                    2. Candy explosion
+                    3. Drizzle covers screen
+                    4. Drizzle moves away
+                    5. Main page appears
+                */
+
+                setTimeout(
+                    () => {
+
+                        const curtain =
+                            document.getElementById(
+                                "drizzleCurtain"
+                            );
+
+                        curtain.classList.add(
+                            "active"
+                        );
+
+
+                        setTimeout(
+                            () => {
+
+                                curtain.classList.remove(
+                                    "active"
+                                );
+
+                                curtain.classList.add(
+                                    "leave"
+                                );
+
+
+                                setTimeout(
+                                    () => {
+
+                                        document
+                                            .getElementById(
+                                                "loader"
+                                            )
+                                            .classList
+                                            .add(
+                                                "finished"
+                                            );
+
+
+                                        createFloatingSweets();
+
+                                        /*
+                                            Start some balloons
+                                            immediately after entering.
+                                        */
+
+                                        spawnBalloons();
+
+
+                                    },
+                                    950
+                                );
+
+                            },
+                            1300
+                        );
+
+                    },
+                    2450
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           INITIAL FLOATING ITEMS
+        ========================================================= */
+
+        updateBottomPile();
+
+    </script>
 
 </body>
 </html>
+```
